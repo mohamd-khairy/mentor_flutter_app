@@ -52,7 +52,7 @@ class RegisterPageState extends State<RegisterPage>{
           Padding(
             padding: const EdgeInsets.only(left:25.0 , right: 25.0),
             child: Container(
-              height: MediaQuery.of(context).size.height - 210.0,
+              // height: MediaQuery.of(context).size.height - 210.0,
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.all(Radius.circular(50.0)),
@@ -137,7 +137,7 @@ class RegisterPageState extends State<RegisterPage>{
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(top:10.0),
+                    padding: const EdgeInsets.only(top:50.0 , bottom: 20.0),
                     child: Row(
                       children: <Widget>[
                         SizedBox(width: MediaQuery.of(context).size.width - 330,),

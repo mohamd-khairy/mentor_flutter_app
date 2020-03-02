@@ -1,6 +1,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:mentor/views/auth/login.dart';
+import 'package:mentor/views/class/classes.dart';
+import 'package:mentor/views/tutor/tutors.dart';
 
 class MyHomePage extends StatefulWidget{
   
@@ -142,13 +144,13 @@ class MyHomePageState extends State<MyHomePage>
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       
-                      SizedBox(height: 20.0),
+                      SizedBox(height: 25.0),
                       Padding(
                         padding: EdgeInsets.only(left: 15.0),
                         child: Text(
                           'Hello , Pino',
                           style: TextStyle(
-                              fontFamily: 'Quicksand',
+                              fontFamily: 'Opensans',
                               fontSize: 30.0,
                               fontWeight: FontWeight.bold),
                         ),
@@ -159,7 +161,7 @@ class MyHomePageState extends State<MyHomePage>
                         child: Text(
                           'What do you want to buy?',
                           style: TextStyle(
-                              fontFamily: 'Quicksand',
+                              fontFamily: 'Opensans',
                               fontSize: 23.0,
                               fontWeight: FontWeight.bold),
                         ),
@@ -193,7 +195,7 @@ class MyHomePageState extends State<MyHomePage>
                               children: <Widget>[
                                 Text(
                                   'Pending',
-                                  style: TextStyle(fontFamily: 'Quicksand' , fontSize: 20.0,fontWeight: FontWeight.bold),
+                                  style: TextStyle(fontFamily: 'Opensans' , fontSize: 20.0,fontWeight: FontWeight.bold),
                                 )
                               ],
                             ),
@@ -215,7 +217,7 @@ class MyHomePageState extends State<MyHomePage>
                               children: <Widget>[
                                 Text(
                                   'Upcoming',
-                                  style: TextStyle(fontFamily: 'Quicksand' , fontSize: 20.0,fontWeight: FontWeight.bold),
+                                  style: TextStyle(fontFamily: 'Opensans' , fontSize: 20.0,fontWeight: FontWeight.bold),
                                 )
                               ],
                             ),
@@ -237,7 +239,7 @@ class MyHomePageState extends State<MyHomePage>
                               children: <Widget>[
                                 Text(
                                   'Classes',
-                                  style: TextStyle(fontFamily: 'Quicksand' , fontSize: 20.0,fontWeight: FontWeight.bold),
+                                  style: TextStyle(fontFamily: 'Opensans' , fontSize: 20.0,fontWeight: FontWeight.bold),
                                 )
                               ],
                             ),
@@ -259,7 +261,7 @@ class MyHomePageState extends State<MyHomePage>
                               children: <Widget>[
                                 Text(
                                   'Sessions',
-                                  style: TextStyle(fontFamily: 'Quicksand' , fontSize: 20.0,fontWeight: FontWeight.bold),
+                                  style: TextStyle(fontFamily: 'Opensans' , fontSize: 20.0,fontWeight: FontWeight.bold),
                                 )
                               ],
                             ),
@@ -270,11 +272,9 @@ class MyHomePageState extends State<MyHomePage>
                   )
                 ],
               ),
-              itemCard('FinnNavian', 'assets/images/1.png', false),
-              itemCard('FinnNavian', 'assets/images/1.png', true),
-              itemCard('FinnNavian', 'assets/images/1.png', true)
+              //content should put here
             ],
-          )
+          ),
         ],
       ),
       bottomNavigationBar: Material(
@@ -283,10 +283,29 @@ class MyHomePageState extends State<MyHomePage>
           controller: controller,
           indicatorColor: Colors.yellow,
           tabs: <Widget>[
-            Tab(icon: Icon(Icons.event_seat, color: Colors.yellow)),
-            Tab(icon: Icon(Icons.timer, color: Colors.grey)),
-            Tab(icon: Icon(Icons.shopping_cart, color: Colors.grey)),
-            Tab(icon: Icon(Icons.person_outline, color: Colors.grey))
+            InkWell(
+              onTap: (){
+                print(this.runtimeType);
+                Navigator.of(context).push(
+                  MaterialPageRoute(builder: (BuildContext context) => MyHomePage())
+                );
+              },
+              child: Tab(icon: Icon(Icons.home, color: (this.runtimeType.toString() == "MyHomePageState")? Colors.yellow:Colors.grey))),
+            InkWell(
+              onTap: (){ 
+                Navigator.of(context).push(
+                  MaterialPageRoute(builder: (BuildContext context) => TutorsPage())
+                );
+              },
+              child: Tab(icon: Icon(Icons.person_outline, color:(this.runtimeType.toString() == "TutorsPageState")? Colors.yellow:Colors.grey))),
+            InkWell(
+              onTap: (){
+                Navigator.of(context).push(
+                  MaterialPageRoute(builder: (BuildContext context) => ClassesPage())
+                );
+              },
+              child: Tab(icon: Icon(Icons.class_, color: (this.runtimeType.toString() == "ClassesPageState")? Colors.yellow:Colors.grey))),
+            Tab(icon: Icon(Icons.event_seat, color: (this.runtimeType.toString() == "ClassesPage")? Colors.yellow:Colors.grey))
           ],
         ),
       ),
@@ -377,112 +396,10 @@ class MyHomePageState extends State<MyHomePage>
         );
       }
     );
-}
-
-
-  Widget itemCard(String title, String imgPath, bool isFavorite) {
-    return Padding(
-      padding: EdgeInsets.only(left: 15.0, right: 15.0, top: 15.0),
-      child: Container(
-        height: 150.0,
-        width: double.infinity,
-        color: Colors.white,
-        child: Row(
-          children: <Widget>[
-            Container(
-              width: 140.0,
-              height: 150.0,
-              decoration: BoxDecoration(
-                  image: DecorationImage(
-                      image: AssetImage(imgPath), fit: BoxFit.cover)),
-            ),
-            SizedBox(width: 4.0),
-            Column(
-              children: <Widget>[
-                Row(
-                  children: <Widget>[
-                    Text(
-                      title,
-                      style: TextStyle(
-                          fontFamily: 'Quicksand',
-                          fontSize: 17.0,
-                          fontWeight: FontWeight.bold),
-                    ),
-                    SizedBox(width: 45.0),
-                    Material(
-                      elevation: isFavorite ? 0.0 : 2.0,
-                      borderRadius: BorderRadius.circular(20.0),
-                      child: Container(
-                        height: 45.0,
-                        width: 40.0,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(20.0),
-                            color: isFavorite
-                                ? Colors.grey.withOpacity(0.2)
-                                : Colors.white),
-                        child: Center(
-                          child: isFavorite
-                              ? Icon(Icons.favorite_border)
-                              : Icon(Icons.favorite, color: Colors.red),
-                        ),
-                      ),
-                    )
-                  ],
-                ),
-                SizedBox(height: 5.0),
-                Container(
-                  width: 175.0,
-                  child: Text(
-                    'Scandinavian small sized double sofa imported full leather / Dale Italia oil wax leather black',
-                    textAlign: TextAlign.left,
-                    style: TextStyle(
-                        fontFamily: 'Quicksand',
-                        color: Colors.grey,
-                        fontSize: 12.0),
-                  ),
-                ),
-                SizedBox(height: 5.0),
-                Row(
-                  children: <Widget>[
-                    SizedBox(width: 35.0),
-                    Container(
-                      height: 45.0,
-                      width: 50.0,
-                      color: Color(getColorHexFromStr('#F9C335')),
-                      child: Center(
-                        child: Text(
-                          '\$248',
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontFamily: 'Quicksand',
-                              fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                    ),
-                    Container(
-                      height: 45.0,
-                      width: 100.0,
-                      color: Color(getColorHexFromStr('#FEDD59')),
-                      child: Center(
-                        child: Text(
-                          'Add to cart',
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontFamily: 'Quicksand',
-                              fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                    )
-                  ],
-                )
-              ],
-            )
-          ],
-        ),
-      ),
-    );
   }
+
 }
+
 
 
             

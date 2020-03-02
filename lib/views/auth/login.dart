@@ -52,8 +52,9 @@ class LoginPageState extends State<LoginPage>{
           Padding(
             padding: const EdgeInsets.only(left:25.0 , right: 25.0),
             child: Container(
-              height: MediaQuery.of(context).size.height - 310.0,
+              //height: MediaQuery.of(context).size.height - 310.0,
               decoration: BoxDecoration(
+                border: Border.all(color: Colors.pink),
                 color: Colors.white,
                 borderRadius: BorderRadius.all(Radius.circular(50.0)),
               ),
@@ -116,7 +117,7 @@ class LoginPageState extends State<LoginPage>{
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(top:20.0),
+                    padding: const EdgeInsets.only(top: 50.0, bottom: 10.0),
                     child: Row(
                       children: <Widget>[
                         SizedBox(width: MediaQuery.of(context).size.width - 350,),
