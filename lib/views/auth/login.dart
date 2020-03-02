@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mentor/controllers/auth/auth.dart';
 import 'package:mentor/views/auth/register.dart';
 import 'package:mentor/views/home.dart';
 
@@ -8,6 +9,29 @@ class LoginPage extends StatefulWidget{
 }
 
 class LoginPageState extends State<LoginPage>{
+
+  final TextEditingController _emailController = new TextEditingController();
+  final TextEditingController _passwordController = new TextEditingController();
+
+  var auth = new Auth();
+
+  _login(){
+    setState(() {
+      if(_emailController.text.trim().toLowerCase().isNotEmpty && _passwordController.text.trim().isNotEmpty){
+        auth.login(_emailController.text.trim().toLowerCase(), _passwordController.text.trim()).whenComplete((){
+          if(auth.status == 200){
+            Navigator.of(context).push(
+              MaterialPageRoute(builder: (BuildContext context) => MyHomePage())
+            );
+          }else{
+            _showDialog();
+          }
+        });
+      }else{
+        _showDialog();
+      }
+    });
+  }
 
   int getColorHexFromStr(String colorStr) {
     colorStr = "FF" + colorStr;
@@ -63,6 +87,7 @@ class LoginPageState extends State<LoginPage>{
                   Padding(
                     padding: const EdgeInsets.only(top:30.0,right: 60.0,left:45.0),
                     child: TextField(
+                      controller: _emailController,
                       keyboardType: TextInputType.emailAddress,
                       decoration: InputDecoration(
                         focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.yellow, width: 2.0)),
@@ -74,6 +99,7 @@ class LoginPageState extends State<LoginPage>{
                   Padding(
                     padding: const EdgeInsets.only(top:30.0,right: 60.0,left:45.0),
                     child: TextField(
+                      controller: _passwordController,
                       keyboardType: TextInputType.emailAddress,
                       decoration: InputDecoration(
                         focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.yellow, width: 2.0)),
@@ -100,11 +126,7 @@ class LoginPageState extends State<LoginPage>{
                       height: 50.0,
                       width: 250.0,
                       child: RaisedButton(
-                        onPressed: (){
-                          Navigator.of(context).push(
-                            MaterialPageRoute(builder: (BuildContext context) => MyHomePage())
-                          );
-                        },
+                        onPressed: _login,
                         color: Color(getColorHexFromStr('#FDD148')),
                         child:  Text('Login' ,
                           style:  TextStyle(
@@ -141,5 +163,30 @@ class LoginPageState extends State<LoginPage>{
       )
     );
    }
+
+
+
+   void _showDialog() {
+    // flutter defined function
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        // return object of type Dialog
+        return AlertDialog(
+          title: new Text("Failed"),
+          content: new Text("email or password is wrong"),
+          actions: <Widget>[
+            // usually buttons at the bottom of the dialog
+            new FlatButton(
+              child: new Text("Close"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
 
 }

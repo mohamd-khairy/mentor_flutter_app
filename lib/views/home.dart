@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:mentor/views/auth/login.dart';
 import 'package:mentor/views/class/classes.dart';
 import 'package:mentor/views/tutor/tutors.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class MyHomePage extends StatefulWidget{
   
@@ -16,6 +17,13 @@ class MyHomePageState extends State<MyHomePage>
   final _formKey = GlobalKey<FormState>();
 
   TabController controller;
+
+  _save(String token) async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final key = 'token';
+    final value = token;
+    prefs.setString(key, value);
+  }
 
   @override
   void initState() {
@@ -315,6 +323,7 @@ class MyHomePageState extends State<MyHomePage>
   Widget _simplePopup() => PopupMenuButton(
     onSelected: (value) {
       if(value == 'Logout'){
+        _save('0');
         Navigator.of(context).push(
           MaterialPageRoute(builder: (BuildContext context) => LoginPage())
         );
