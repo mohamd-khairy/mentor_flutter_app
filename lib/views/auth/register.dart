@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mentor/controllers/auth/auth.dart';
 import 'package:mentor/views/auth/login.dart';
 import 'package:mentor/views/home.dart';
 
@@ -8,6 +9,47 @@ class RegisterPage extends StatefulWidget{
 }
 
 class RegisterPageState extends State<RegisterPage>{
+
+  final TextEditingController _firstNameController = new TextEditingController();
+  final TextEditingController _secondNameController = new TextEditingController();
+  final TextEditingController _mobileController = new TextEditingController();
+  final TextEditingController _emailController = new TextEditingController();
+  final TextEditingController _passwordController = new TextEditingController();
+
+  var auth = new Auth();
+  
+   _register(){
+    setState(() {
+      if(_firstNameController.text.trim().toLowerCase().isNotEmpty &&
+      _secondNameController.text.trim().toLowerCase().isNotEmpty &&
+      _mobileController.text.trim().isNotEmpty &&
+      _emailController.text.trim().toLowerCase().isNotEmpty &&
+       _passwordController.text.trim().isNotEmpty){
+
+        auth.register(
+          _firstNameController.text.trim().toLowerCase(),
+          _secondNameController.text.trim().toLowerCase(),
+          _mobileController.text.trim(),
+          _emailController.text.trim().toLowerCase(),
+          _passwordController.text.trim()
+
+         ).whenComplete((){
+
+          if(auth.status == 200){
+
+
+            _showDialog( "Success" ,auth.msg);
+
+            
+          }else{
+            _showDialog( "Failed" , auth.msg);
+          }
+        });
+      }else{
+        _showDialog( "Failed" ,auth.msg);
+      }
+    });
+  }
 
   int getColorHexFromStr(String colorStr) {
     colorStr = "FF" + colorStr;
@@ -62,7 +104,8 @@ class RegisterPageState extends State<RegisterPage>{
                   Padding(
                     padding: const EdgeInsets.only(top:30.0,right: 60.0,left:40.0),
                     child: TextField(
-                      keyboardType: TextInputType.emailAddress,
+                      controller: _firstNameController,
+                      keyboardType: TextInputType.text,
                       decoration: InputDecoration(
                         focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.yellow, width: 2.0)),
                         hintText: "First Name",
@@ -73,7 +116,8 @@ class RegisterPageState extends State<RegisterPage>{
                   Padding(
                     padding: const EdgeInsets.only(top:10.0,right: 60.0,left:40.0),
                     child: TextField(
-                      keyboardType: TextInputType.emailAddress,
+                      controller: _secondNameController,
+                      keyboardType: TextInputType.text,
                       decoration: InputDecoration(
                         focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.yellow, width: 2.0)),
                         hintText: "Last Name",
@@ -84,6 +128,7 @@ class RegisterPageState extends State<RegisterPage>{
                   Padding(
                     padding: const EdgeInsets.only(top:10.0,right: 60.0,left:40.0),
                     child: TextField(
+                      controller: _emailController,
                       keyboardType: TextInputType.emailAddress,
                       decoration: InputDecoration(
                         focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.yellow, width: 2.0)),
@@ -95,7 +140,8 @@ class RegisterPageState extends State<RegisterPage>{
                   Padding(
                     padding: const EdgeInsets.only(top:10.0,right: 60.0,left:40.0),
                     child: TextField(
-                      keyboardType: TextInputType.emailAddress,
+                      controller: _mobileController,
+                      keyboardType: TextInputType.phone,
                       decoration: InputDecoration(
                         focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.yellow, width: 2.0)),
                         hintText: "Mobile Number",
@@ -106,7 +152,8 @@ class RegisterPageState extends State<RegisterPage>{
                   Padding(
                     padding: const EdgeInsets.only(top:10.0,right: 60.0,left:40.0),
                     child: TextField(
-                      keyboardType: TextInputType.emailAddress,
+                      controller: _passwordController,
+                      keyboardType: TextInputType.visiblePassword,
                       decoration: InputDecoration(
                         focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.yellow, width: 2.0)),
                         hintText: "password",
@@ -121,9 +168,7 @@ class RegisterPageState extends State<RegisterPage>{
                       width: 250.0,
                       child: RaisedButton(
                         onPressed: (){
-                          Navigator.of(context).push(
-                            MaterialPageRoute(builder: (BuildContext context) => MyHomePage())
-                          );
+                          _register();
                         },
                         color: Color(getColorHexFromStr('#FDD148')),
                         child:  Text('Sign Up' ,
@@ -161,5 +206,31 @@ class RegisterPageState extends State<RegisterPage>{
       )
     );
    }
+
+  void _showDialog(status , msg) {
+    // flutter defined function
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        // return object of type Dialog
+        return AlertDialog(
+          title: new Text(status),
+          content: new Text(msg),
+          actions: <Widget>[
+            // usually buttons at the bottom of the dialog
+            new FlatButton(
+              child: new Text("Close"),
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(builder: (BuildContext context) => LoginPage())
+                );
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
 
 }

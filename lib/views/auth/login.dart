@@ -29,11 +29,11 @@ class LoginPageState extends State<LoginPage>{
 
             
           }else{
-            _showDialog();
+            _showDialog("fail" , auth.msg);
           }
         });
       }else{
-        _showDialog();
+        _showDialog("fail" , "something wrong");
       }
     });
   }
@@ -171,15 +171,15 @@ class LoginPageState extends State<LoginPage>{
 
 
 
-   void _showDialog() {
+   void _showDialog(st,ms) {
     // flutter defined function
     showDialog(
       context: context,
       builder: (BuildContext context) {
         // return object of type Dialog
         return AlertDialog(
-          title: new Text("Failed"),
-          content: new Text("email or password is wrong"),
+          title: new Text(st),
+          content: new Text(ms),
           actions: <Widget>[
             // usually buttons at the bottom of the dialog
             new FlatButton(

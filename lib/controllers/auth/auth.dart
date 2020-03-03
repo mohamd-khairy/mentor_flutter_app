@@ -9,6 +9,7 @@ class Auth {
 
   var status;
   var name;
+  var msg;
 
   login(email , password) async{
 
@@ -30,7 +31,41 @@ class Auth {
         var user = json.decode(response.body);
         print(user);
         _save('token',user['access_token']);
+        msg = json.decode(response.body)['message'];
 
+      }else{
+        msg = json.decode(response.body)['message'];
+      }
+  }
+
+  register(fname , sname ,mobile ,email , password) async{
+
+      Map data = {
+        'first_name': "$fname",
+        'last_name': "$sname",
+        'mobile': "$mobile",
+        'email': "$email",
+        'password': "$password"
+      };
+
+      var body = json.encode(data);
+
+      var response = await http.post(baseUrl + 'auth/register',
+            headers: {"Content-Type": "application/json","Accept": "application/json"},
+            body: body
+      );
+
+      status = response.statusCode;
+
+      if(status == 200){
+        var data = json.decode(response.body);
+        print(data);
+        msg = json.decode(response.body)['message'];
+
+        // _save('token',user['access_token']);
+
+      }else{
+        msg = json.decode(response.body)['message'];
       }
   }
 
@@ -45,10 +80,10 @@ class Auth {
 
       status = response.statusCode;
 
-      // print(json.decode(response.body));
+       print(json.decode(response.body));
       if(status == 200){
         final userData =  json.decode(response.body);
-        name = userData['data']['name'];
+        name = userData['data']['name'] ?? " ";
         _save('name', name);
         return  User.fromJson(userData);
       }
