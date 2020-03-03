@@ -20,9 +20,14 @@ class LoginPageState extends State<LoginPage>{
       if(_emailController.text.trim().toLowerCase().isNotEmpty && _passwordController.text.trim().isNotEmpty){
         auth.login(_emailController.text.trim().toLowerCase(), _passwordController.text.trim()).whenComplete((){
           if(auth.status == 200){
-            Navigator.of(context).push(
-              MaterialPageRoute(builder: (BuildContext context) => MyHomePage())
-            );
+            
+            auth.me().whenComplete(() => {
+              Navigator.of(context).push(
+                MaterialPageRoute(builder: (BuildContext context) => MyHomePage(name:auth.name))
+              )
+            });
+
+            
           }else{
             _showDialog();
           }

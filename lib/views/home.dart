@@ -6,7 +6,9 @@ import 'package:mentor/views/tutor/tutors.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class MyHomePage extends StatefulWidget{
-  
+  final name;
+
+  MyHomePage({this.name});
   MyHomePageState createState() => MyHomePageState();
 
 }
@@ -16,8 +18,11 @@ class MyHomePageState extends State<MyHomePage>
 
   final _formKey = GlobalKey<FormState>();
 
+
   TabController controller;
 
+
+  
   _save(String token) async{
     SharedPreferences prefs = await SharedPreferences.getInstance();
     final key = 'token';
@@ -25,10 +30,11 @@ class MyHomePageState extends State<MyHomePage>
     prefs.setString(key, value);
   }
 
+
   @override
   void initState() {
-    super.initState();
     controller = new TabController(length: 4, vsync: this);
+    super.initState();
   }
 
   @override
@@ -156,10 +162,10 @@ class MyHomePageState extends State<MyHomePage>
                       Padding(
                         padding: EdgeInsets.only(left: 15.0),
                         child: Text(
-                          'Hello , Pino',
+                          'Hello , '+ widget.name,
                           style: TextStyle(
                               fontFamily: 'Opensans',
-                              fontSize: 30.0,
+                              fontSize: 25.0,
                               fontWeight: FontWeight.bold),
                         ),
                       ),
