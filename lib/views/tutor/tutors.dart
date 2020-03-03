@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:mentor/controllers/auth/auth.dart';
 import 'package:mentor/views/auth/login.dart';
 import 'package:mentor/views/class/classes.dart';
 import 'package:mentor/views/home.dart';
@@ -18,8 +19,11 @@ class TutorsPageState extends State<TutorsPage>
 
   TabController controller;
 
+  final auth = new Auth();
+
   @override
   void initState() {
+    auth.read('name');
     super.initState();
     controller = new TabController(length: 4, vsync: this);
   }
@@ -148,8 +152,8 @@ class TutorsPageState extends State<TutorsPage>
             InkWell(
               onTap: (){
                 print(this.runtimeType);
-                Navigator.of(context).push(
-                  MaterialPageRoute(builder: (BuildContext context) => MyHomePage())
+                Navigator.of(context).push (
+                  MaterialPageRoute(builder: (BuildContext context) => MyHomePage(name: auth.name))
                 );
               },
               child: Tab(icon: Icon(Icons.home, color: (this.runtimeType.toString() == "MyHomePageState")? Colors.yellow:Colors.grey))),

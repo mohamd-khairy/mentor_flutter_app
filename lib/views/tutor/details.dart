@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mentor/controllers/auth/auth.dart';
 
 class DetailPage extends StatefulWidget {
   @override
@@ -6,6 +7,15 @@ class DetailPage extends StatefulWidget {
 }
 
 class _DetailPageState extends State<DetailPage> {
+  
+    final auth = new Auth();
+
+  @override
+  void initState() {
+    auth.read('name');
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

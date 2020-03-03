@@ -29,7 +29,7 @@ class Auth {
       if(status == 200){
         var user = json.decode(response.body);
         print(user);
-        _save(user['access_token']);
+        _save('token',user['access_token']);
 
       }
   }
@@ -49,21 +49,19 @@ class Auth {
       if(status == 200){
         final userData =  json.decode(response.body);
         name = userData['data']['name'];
+        _save('name', name);
         return  User.fromJson(userData);
       }
   }
 
-    _save(String token) async{
+    _save(String key ,String value) async{
       SharedPreferences prefs = await SharedPreferences.getInstance();
-      final key = 'token';
-      final value = token;
       prefs.setString(key, value);
     }
 
-    read() async{
-      final prefs = await SharedPreferences.getInstance();
-      final key = 'token';
-      return  prefs.get(key) ?? 0;
+    read(key) async{
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      name =  prefs.get(key).toString();
     }
 
  }

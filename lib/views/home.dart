@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:mentor/controllers/auth/auth.dart';
 import 'package:mentor/views/auth/login.dart';
 import 'package:mentor/views/class/classes.dart';
 import 'package:mentor/views/tutor/tutors.dart';
@@ -21,7 +22,7 @@ class MyHomePageState extends State<MyHomePage>
 
   TabController controller;
 
-
+  var auth = new Auth();
   
   _save(String token) async{
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -33,6 +34,7 @@ class MyHomePageState extends State<MyHomePage>
 
   @override
   void initState() {
+    auth.read('name');
     controller = new TabController(length: 4, vsync: this);
     super.initState();
   }
@@ -299,9 +301,10 @@ class MyHomePageState extends State<MyHomePage>
           tabs: <Widget>[
             InkWell(
               onTap: (){
-                print(this.runtimeType);
+                // print(this.runtimeType);
+                 auth.read('name');
                 Navigator.of(context).push(
-                  MaterialPageRoute(builder: (BuildContext context) => MyHomePage())
+                  MaterialPageRoute(builder: (BuildContext context) => MyHomePage(name: auth.name))
                 );
               },
               child: Tab(icon: Icon(Icons.home, color: (this.runtimeType.toString() == "MyHomePageState")? Colors.yellow:Colors.grey))),
