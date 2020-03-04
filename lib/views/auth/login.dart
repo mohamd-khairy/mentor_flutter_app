@@ -120,21 +120,6 @@ class LoginPageState extends State<LoginPage>{
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(top:25.0),
-                    child: Row(
-                      children: <Widget>[
-                        SizedBox(width: MediaQuery.of(context).size.width - 350,),
-                        GestureDetector(
-                          onTap: (){
-                            Navigator.of(context).push(
-                              MaterialPageRoute(builder: (BuildContext context) => ForgotPasswordPage())
-                            );                          },
-                          child: Text("Forget Password ?",style: TextStyle(fontSize: 15.0,fontWeight: FontWeight.bold,color: Colors.grey ),),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Padding(
                     padding: const EdgeInsets.only(top:40.0,right: 30.0,left:30.0),
                     child: Container(
                       height: 50.0,
@@ -153,7 +138,22 @@ class LoginPageState extends State<LoginPage>{
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(top: 50.0, bottom: 10.0),
+                    padding: const EdgeInsets.only(top:25.0),
+                    child: Row(
+                      children: <Widget>[
+                        SizedBox(width: MediaQuery.of(context).size.width - 350,),
+                        GestureDetector(
+                          onTap: (){
+                            Navigator.of(context).push(
+                              MaterialPageRoute(builder: (BuildContext context) => ForgotPasswordPage())
+                            );                          },
+                          child: Text("Forget Password ?",style: TextStyle(fontSize: 15.0,fontWeight: FontWeight.bold,color: Colors.grey ),),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 40.0, bottom: 15.0),
                     child: Row(
                       children: <Widget>[
                         SizedBox(width: MediaQuery.of(context).size.width - 350,),

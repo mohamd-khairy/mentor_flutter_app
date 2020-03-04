@@ -95,6 +95,7 @@ class RegisterPageState extends State<RegisterPage>{
             child: Container(
               // height: MediaQuery.of(context).size.height - 210.0,
               decoration: BoxDecoration(
+                border: Border.all(color: Colors.pink),
                 color: Colors.white,
                 borderRadius: BorderRadius.all(Radius.circular(50.0)),
               ),
