@@ -45,7 +45,7 @@ class RegisterPageState extends State<RegisterPage>{
           }
         });
       }else{
-        _showDialog( "Failed" ,auth.msg);
+        _showDialog( "Failed" , "something wrong");
       }
     });
   }
@@ -220,13 +220,15 @@ class RegisterPageState extends State<RegisterPage>{
             new FlatButton(
               child: new Text("Close"),
               onPressed: () {
-                if(auth.status > 400){
-                  Navigator.of(context).pop();
+                if (auth.status.toString() != "null"){
+                  if( auth.status >= 200 && auth.status < 300){
+                    Navigator.of(context).push(
+                      MaterialPageRoute(builder: (BuildContext context) => LoginPage())
+                    );
+                  }
                 }else{
-                  Navigator.of(context).push(
-                    MaterialPageRoute(builder: (BuildContext context) => LoginPage())
-                  );
-                }
+                  Navigator.of(context).pop();
+                } 
               },
             ),
           ],
