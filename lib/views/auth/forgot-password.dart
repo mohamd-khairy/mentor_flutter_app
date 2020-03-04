@@ -1,39 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:mentor/controllers/auth/auth.dart';
-import 'package:mentor/views/auth/forgot-password.dart';
-import 'package:mentor/views/auth/register.dart';
-import 'package:mentor/views/home.dart';
+import 'package:mentor/views/auth/login.dart';
+import 'package:mentor/views/auth/reset-password.dart';
 
-class LoginPage extends StatefulWidget{
+class ForgotPasswordPage extends StatefulWidget{
 
-  LoginPageState createState() => LoginPageState();
+  ForgotPasswordPageState createState() => ForgotPasswordPageState();
 }
 
-class LoginPageState extends State<LoginPage>{
+class ForgotPasswordPageState extends State<ForgotPasswordPage>{
 
   final TextEditingController _emailController = new TextEditingController();
-  final TextEditingController _passwordController = new TextEditingController();
 
   var auth = new Auth();
 
   _login(){
     setState(() {
-      if(_emailController.text.trim().toLowerCase().isNotEmpty && _passwordController.text.trim().isNotEmpty){
-        auth.login(_emailController.text.trim().toLowerCase(), _passwordController.text.trim()).whenComplete((){
+      if(_emailController.text.trim().toLowerCase().isNotEmpty){
+        auth.forgot(_emailController.text.trim().toLowerCase()).whenComplete((){
           if(auth.status == 200){
-            
-            auth.me().whenComplete((){
-              if(auth.status == 200){
-                  Navigator.of(context).push(
-                    MaterialPageRoute(builder: (BuildContext context) => MyHomePage(name:auth.name))
-                  );
-              }else{
-                _showDialog("fail" , auth.msg);
-              }
-              
-            });
+            _showDialog("Success" , auth.msg);
 
-            
           }else{
             _showDialog("fail" , auth.msg);
           }
@@ -75,7 +62,7 @@ class LoginPageState extends State<LoginPage>{
           Container(
             height: 150.0,
             child: Center(
-              child: Text("Login",
+              child: Text("Forgot Password",
                 style:TextStyle(
                   fontSize: 42.0,
                   fontWeight: FontWeight.bold,
@@ -108,33 +95,6 @@ class LoginPageState extends State<LoginPage>{
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(top:30.0,right: 60.0,left:45.0),
-                    child: TextField(
-                      controller: _passwordController,
-                      keyboardType: TextInputType.emailAddress,
-                      decoration: InputDecoration(
-                        focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.yellow, width: 2.0)),
-                        hintText: "password",
-                        icon: Icon(Icons.vpn_key , color: Colors.yellow),
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top:25.0),
-                    child: Row(
-                      children: <Widget>[
-                        SizedBox(width: MediaQuery.of(context).size.width - 350,),
-                        GestureDetector(
-                          onTap: (){
-                            Navigator.of(context).push(
-                              MaterialPageRoute(builder: (BuildContext context) => ForgotPasswordPage())
-                            );                          },
-                          child: Text("Forget Password ?",style: TextStyle(fontSize: 15.0,fontWeight: FontWeight.bold,color: Colors.grey ),),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Padding(
                     padding: const EdgeInsets.only(top:40.0,right: 30.0,left:30.0),
                     child: Container(
                       height: 50.0,
@@ -142,7 +102,7 @@ class LoginPageState extends State<LoginPage>{
                       child: RaisedButton(
                         onPressed: _login,
                         color: Color(getColorHexFromStr('#FDD148')),
-                        child:  Text('Login' ,
+                        child:  Text('Send' ,
                           style:  TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.bold,
@@ -157,14 +117,14 @@ class LoginPageState extends State<LoginPage>{
                     child: Row(
                       children: <Widget>[
                         SizedBox(width: MediaQuery.of(context).size.width - 350,),
-                        Text("Don't have an account ? "),
+                        Text("have an account ? "),
                          GestureDetector(
                           onTap: (){
                             Navigator.of(context).push(
-                              MaterialPageRoute(builder: (BuildContext context) => RegisterPage())
+                              MaterialPageRoute(builder: (BuildContext context) => LoginPage())
                             );
                           },
-                          child: Text("Sign up now",style: TextStyle(fontSize: 15.0,fontWeight: FontWeight.bold,color: Colors.grey),),
+                          child: Text("Sign in now",style: TextStyle(fontSize: 15.0,fontWeight: FontWeight.bold,color: Colors.grey),),
                         ),
                       ],
                     ),
@@ -187,14 +147,23 @@ class LoginPageState extends State<LoginPage>{
       builder: (BuildContext context) {
         // return object of type Dialog
         return AlertDialog(
-         title: status.toString().isNotEmpty ?  new Text(status) : Text("fail"),
+          title: status.toString().isNotEmpty ?  new Text(status) : Text("fail"),
           content: msg.toString().isNotEmpty ?  new Text(msg) : Text("fail"),
           actions: <Widget>[
             // usually buttons at the bottom of the dialog
             new FlatButton(
               child: new Text("Close"),
               onPressed: () {
-                Navigator.of(context).pop();
+                if(auth.status == 200){
+                  Navigator.of(context).push(
+                    MaterialPageRoute(builder: (BuildContext context) => ResetPasswordPage())
+                  );
+                }else{
+                  Navigator.of(context).push(
+                    MaterialPageRoute(builder: (BuildContext context) => LoginPage())
+                  );
+                }
+                
               },
             ),
           ],

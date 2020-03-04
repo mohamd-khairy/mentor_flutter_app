@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mentor/controllers/auth/auth.dart';
 import 'package:mentor/views/auth/login.dart';
-import 'package:mentor/views/home.dart';
 
 class RegisterPage extends StatefulWidget{
 
@@ -207,23 +206,27 @@ class RegisterPageState extends State<RegisterPage>{
     );
    }
 
-  void _showDialog(status , msg) {
+  void _showDialog(status, msg) {
     // flutter defined function
     showDialog(
       context: context,
       builder: (BuildContext context) {
         // return object of type Dialog
         return AlertDialog(
-          title: new Text(status),
-          content: new Text(msg),
+          title: status.toString().isNotEmpty ?  new Text(status) : Text("fail"),
+          content: msg.toString().isNotEmpty ?  new Text(msg) : Text("fail"),
           actions: <Widget>[
             // usually buttons at the bottom of the dialog
             new FlatButton(
               child: new Text("Close"),
               onPressed: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(builder: (BuildContext context) => LoginPage())
-                );
+                if(auth.status > 400){
+                  Navigator.of(context).pop();
+                }else{
+                  Navigator.of(context).push(
+                    MaterialPageRoute(builder: (BuildContext context) => LoginPage())
+                  );
+                }
               },
             ),
           ],

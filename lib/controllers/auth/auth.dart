@@ -9,7 +9,7 @@ class Auth {
 
   var status;
   var name;
-  var msg;
+  var msg = " ";
 
   login(email , password) async{
 
@@ -62,8 +62,12 @@ class Auth {
         print(data);
         msg = json.decode(response.body)['message'];
 
-        // _save('token',user['access_token']);
-
+      }else if(status == 422){
+        json.decode(response.body)['errors'].forEach((k,v){
+          //the following print all the currency in 
+          print('$k,$v');  
+          msg = v.toString();                                   
+        });
       }else{
         msg = json.decode(response.body)['message'];
       }
@@ -84,8 +88,61 @@ class Auth {
       if(status == 200){
         final userData =  json.decode(response.body);
         name = userData['data']['name'] ?? " ";
+        msg =  json.decode(response.body)['message'];
         _save('name', name);
         return  User.fromJson(userData);
+      }else{
+        msg =  json.decode(response.body)['message'];
+      }
+  }
+
+  forgot(email) async{
+
+      Map data = {
+        'email': "$email",
+      };
+
+      var body = json.encode(data);
+
+      var response = await http.post(baseUrl + 'auth/forget/password',
+            headers: {"Content-Type": "application/json","Accept": "application/json"},
+            body: body
+      );
+
+      status = response.statusCode;
+
+      if(status == 200){
+        var res = json.decode(response.body);
+        print(res);
+        msg = json.decode(response.body)['message'];
+      }else{
+        msg = json.decode(response.body)['message'];
+      }
+  }
+
+  reset(code , password) async{
+
+      Map data = {
+        'code': "$code",
+        'newPassword': "$password"
+      };
+
+      var body = json.encode(data);
+
+      var response = await http.post(baseUrl + 'auth/reset/password',
+            headers: {"Content-Type": "application/json","Accept": "application/json"},
+            body: body
+      );
+
+      status = response.statusCode;
+
+      if(status == 200){
+        var user = json.decode(response.body);
+        print(user);
+        msg = json.decode(response.body)['message'];
+
+      }else{
+        msg = json.decode(response.body)['message'];
       }
   }
 
