@@ -140,6 +140,7 @@ class TutorsPageState extends State<TutorsPage>
                   Center( child: CircularProgressIndicator(),);
                   if(snapshot.hasData){
                     return ListView.builder(
+                          scrollDirection: Axis.vertical,
                           itemCount: snapshot.data.length,
                           itemBuilder: (BuildContext context , int index){ 
                               return _buildCard(snapshot.data[index]['name'], "${snapshot.data[index]['rate']}", 'assets/mountain.jpg');
@@ -153,18 +154,6 @@ class TutorsPageState extends State<TutorsPage>
             },
             future: mentor.mentors(),
           ),
-                    
-
-          // child: ListView(
-          //   scrollDirection: Axis.vertical,
-          //   children: <Widget>[
-          //     _buildCard(
-          //         'Pamir Mountains, China', '4.1', 'assets/mountain.jpg'),
-
-          //     _buildCard(
-          //         'Kathmandu city, Nepal', '3.8', 'assets/kathmandu.jpg')
-          //   ],
-          // ),
         ),
       )
       ],),
