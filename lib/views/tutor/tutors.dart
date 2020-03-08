@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:mentor/controllers/auth/auth.dart';
+import 'package:mentor/controllers/mentor/mentor.dart';
 import 'package:mentor/views/auth/login.dart';
 import 'package:mentor/views/class/classes.dart';
 import 'package:mentor/views/home.dart';
@@ -20,10 +21,12 @@ class TutorsPageState extends State<TutorsPage>
   TabController controller;
 
   final auth = new Auth();
+  final mentor = new Mentor();
 
   @override
   void initState() {
     auth.read('name');
+    mentor.mentors();
     super.initState();
     controller = new TabController(length: 4, vsync: this);
   }
@@ -131,15 +134,37 @@ class TutorsPageState extends State<TutorsPage>
         padding: const EdgeInsets.only(left: 15.0),
         child: Container(
           height: MediaQuery.of(context).size.height-200,
-          child: ListView(
-            scrollDirection: Axis.vertical,
-            children: <Widget>[
-              _buildCard(
-                  'Pamir Mountains, China', '4.1', 'assets/mountain.jpg'),
-              _buildCard(
-                  'Kathmandu city, Nepal', '3.8', 'assets/kathmandu.jpg')
-            ],
+
+          child: FutureBuilder<List>(
+            builder: (context,snapshot){
+                  Center( child: CircularProgressIndicator(),);
+                  if(snapshot.hasData){
+                    return ListView.builder(
+                          itemCount: snapshot.data.length,
+                          itemBuilder: (BuildContext context , int index){ 
+                              return _buildCard(snapshot.data[index]['name'], "${snapshot.data[index]['rate']}", 'assets/mountain.jpg');
+                          });
+                  }else if(snapshot.hasError) {
+                    return Center( child: Text(snapshot.error));
+                  }else{
+                    return Center( child: Text("there is no Device now."));
+                  }
+                  
+            },
+            future: mentor.mentors(),
           ),
+                    
+
+          // child: ListView(
+          //   scrollDirection: Axis.vertical,
+          //   children: <Widget>[
+          //     _buildCard(
+          //         'Pamir Mountains, China', '4.1', 'assets/mountain.jpg'),
+
+          //     _buildCard(
+          //         'Kathmandu city, Nepal', '3.8', 'assets/kathmandu.jpg')
+          //   ],
+          // ),
         ),
       )
       ],),
