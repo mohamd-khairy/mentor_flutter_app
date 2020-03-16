@@ -143,7 +143,7 @@ class TutorsPageState extends State<TutorsPage>
                           scrollDirection: Axis.vertical,
                           itemCount: snapshot.data.length,
                           itemBuilder: (BuildContext context , int index){ 
-                              return _buildCard(snapshot.data[index]['name'], "${snapshot.data[index]['rate']}", 'assets/mountain.jpg');
+                              return _buildCard(snapshot.data[index]['id'],snapshot.data[index]['name'],snapshot.data[index]['topics']['category']['name'], "${snapshot.data[index]['rate']}", "${snapshot.data[index]['profile']['photo']}");
                           });
                   }else if(snapshot.hasError) {
                     return Center( child: Text(snapshot.error));
@@ -278,23 +278,20 @@ class TutorsPageState extends State<TutorsPage>
     );
   }
 
-  _buildCard(String title, String rating, String imgPath) {
+  _buildCard(id,String title,String category, String rating, String imgPath) {
     return Padding(
         padding: EdgeInsets.all(10.0),
         child: InkWell(
           onTap: () {
             Navigator.of(context)
-                .push(MaterialPageRoute(builder: (context) => DetailPage()));
+                .push(MaterialPageRoute(builder: (context) => DetailPage(id:id)));
           },
           child: Stack(
             children: <Widget>[
               Container(
                 height: 275.0,
                 width: MediaQuery.of(context).size.width,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20.0),
-                    image: DecorationImage(
-                        image: AssetImage(imgPath), fit: BoxFit.cover)),
+                child: Image.network(imgPath, fit: BoxFit.cover),
               ),
               //make the shade a bit deeper.
               Container(
@@ -344,7 +341,7 @@ class TutorsPageState extends State<TutorsPage>
                 top: 165.0,
                 left: 10.0,
                 child: Container(
-                  width: 150.0,
+                  width: 200.0,
                   child: Text(title,
                       style: TextStyle(
                           fontFamily: 'Opensans',
@@ -357,7 +354,7 @@ class TutorsPageState extends State<TutorsPage>
                   top: 225.0,
                   left: 10.0,
                   child: Row(children: [
-                    Text('I was here',
+                    Text(category ?? "no category yet",
                         style: TextStyle(
                             fontFamily: 'Opensans',
                             fontSize: 15.0,

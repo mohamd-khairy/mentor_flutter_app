@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:mentor/models/auth/mentor.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Mentor {
@@ -22,7 +23,7 @@ class Mentor {
       status = response.statusCode;
 
       if(status == 200){
-        print(json.decode(response.body));
+        // print(json.decode(response.body));
 
         msg =  json.decode(response.body)['message'];
 
@@ -31,6 +32,30 @@ class Mentor {
       }else{
         msg =  json.decode(response.body)['message'];
       }
+  }
+
+  Future<UserMentor> mentor(id) async{
+
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      var token =  prefs.get('token') ?? 0;
+
+      var response = await http.get(baseUrl + 'mentor-profile/${id}',
+            headers: {"Authorization": "Bearer "+token}
+      );
+
+      status = response.statusCode;
+
+      if(status == 200){
+        print(json.decode(response.body)['data']);
+
+        msg =  json.decode(response.body)['message'];
+
+        return UserMentor.fromJson(json.decode(response.body)['data']);
+
+      }else{
+        msg =  json.decode(response.body)['message'];
+    }
+
   }
 
   _save(String key ,String value) async{
