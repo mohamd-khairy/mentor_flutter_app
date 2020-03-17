@@ -137,19 +137,20 @@ class TutorsPageState extends State<TutorsPage>
 
           child: FutureBuilder<List>(
             builder: (context,snapshot){
-                  Center( child: CircularProgressIndicator(),);
                   if(snapshot.hasData){
                     return ListView.builder(
                           scrollDirection: Axis.vertical,
                           itemCount: snapshot.data.length,
                           itemBuilder: (BuildContext context , int index){ 
-                              return _buildCard(snapshot.data[index]['id'],snapshot.data[index]['name'],snapshot.data[index]['topics']['category']['name'], "${snapshot.data[index]['rate']}", "${snapshot.data[index]['profile']['photo']}");
+                            if(snapshot.data[index]['profile'] != null && snapshot.data[index]['topics'] != null){
+                              return _buildCard(snapshot.data[index]['id'],snapshot.data[index]['name'] ?? " ",snapshot.data[index]['topics']['category']['name'] ?? " ", "${snapshot.data[index]['rate']}", "${snapshot.data[index]['profile']['photo']}");
+                            }
                           });
                   }else if(snapshot.hasError) {
                     return Center( child: Text(snapshot.error));
-                  }else{
-                    return Center( child: Text("there is no Device now."));
                   }
+                  return Center( child: CircularProgressIndicator(),);
+
                   
             },
             future: mentor.mentors(),
@@ -338,7 +339,7 @@ class TutorsPageState extends State<TutorsPage>
                 ),
               ),
               Positioned(
-                top: 165.0,
+                top: 190.0,
                 left: 10.0,
                 child: Container(
                   width: 200.0,
@@ -360,7 +361,7 @@ class TutorsPageState extends State<TutorsPage>
                             fontSize: 15.0,
                             color: Colors.white,
                             fontWeight: FontWeight.w600)),
-                    SizedBox(width: MediaQuery.of(context).size.width-200),
+                    SizedBox(width: MediaQuery.of(context).size.width-220),
                     Stack(
                       children: <Widget>[
                         Container(height: 40.0, width: 100.0),

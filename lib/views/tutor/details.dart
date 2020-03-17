@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mentor/controllers/auth/auth.dart';
 import 'package:mentor/controllers/mentor/mentor.dart';
 import 'package:mentor/models/auth/mentor.dart';
+import 'package:mentor/views/tutor/tutors.dart';
 
 class DetailPage extends StatefulWidget {
   final id;
@@ -71,14 +72,16 @@ class _DetailPageState extends State<DetailPage> {
                           ),
                         ),
                         Container(
-                          height: MediaQuery.of(context).size.height - 310.0,
+                          height: MediaQuery.of(context).size.height - 400.0,
+                          width: MediaQuery.of(context).size.width,
                           child: Image.network(snapshot.data.photo, fit: BoxFit.cover),
                         ),
                         Positioned(
-                          top: 400.0,
+                          top: 350.0,
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
+                              SizedBox(height:  15.0),
                               Padding(
                                 padding: const EdgeInsets.only(left:15.0),
                                 child: Container(
@@ -91,11 +94,11 @@ class _DetailPageState extends State<DetailPage> {
                                         children: <Widget>[
                                           Row(
                                             children: <Widget>[
-                                              Icon(Icons.location_on, size: 12.0, color: Colors.grey),
+                                              Icon(Icons.location_on, size: 16.0, color: Colors.grey),
                                               Text("${snapshot.data.country}, ${snapshot.data.city}",
                                               style: TextStyle(
                                                 fontFamily: 'Opensans',
-                                                fontSize: 12.0,
+                                                fontSize: 14.0,
                                                 color: Colors.grey
                                               ),
                                               )
@@ -113,19 +116,22 @@ class _DetailPageState extends State<DetailPage> {
                                           )
                                         ],
                                       ),
-                                      Container(
-                                        height: 60.0,
-                                        width: 40.0,
-                                        decoration: BoxDecoration(
-                                          color: Colors.grey.withOpacity(0.1),
-                                          borderRadius: BorderRadius.circular(20.0)
-                                        ),
-                                        child: Column(
-                                          mainAxisAlignment: MainAxisAlignment.end,
-                                          children: <Widget>[
-                                            Icon(Icons.favorite_border, color: Colors.black, size: 20.0),
-                                            SizedBox(height: 7.0)
-                                          ],
+                                      InkWell(
+                                          onTap:(){},
+                                          child: Container(
+                                          height: 60.0,
+                                          width: 40.0,
+                                          decoration: BoxDecoration(
+                                            color: Colors.grey.withOpacity(0.1),
+                                            borderRadius: BorderRadius.circular(20.0)
+                                          ),
+                                          child: Column(
+                                            mainAxisAlignment: MainAxisAlignment.end,
+                                            children: <Widget>[
+                                              Icon(Icons.favorite_border, color: Colors.black, size: 20.0),
+                                              SizedBox(height: 17.0)
+                                            ],
+                                          ),
                                         ),
                                       )
                                     ],
@@ -136,16 +142,18 @@ class _DetailPageState extends State<DetailPage> {
                                 padding: const EdgeInsets.only(left: 15.0, top: 15.0),
                                 child: Row(
                                 children: <Widget>[
-                                  Text('Recommendation',
-                                      style: TextStyle(
-                                          fontFamily: 'Opensans',
-                                          fontSize: 15.0,
-                                          color: Color(0xFF6A6A6A),
-                                          fontWeight: FontWeight.w600)),
-                                  SizedBox(width: 25.0),
+                                    Container(
+                                      width: 220.0,
+                                      child: Text("${snapshot.data.topic}",
+                                        style: TextStyle(
+                                            fontFamily: 'Opensans',
+                                            fontSize: 15.0,
+                                            color: Color(0xFF6A6A6A),
+                                            fontWeight: FontWeight.w600)),
+                                    ),
                                   Stack(
                                     children: <Widget>[
-                                      Container(height: 40.0, width: 100.0),
+                                      Container(height: 40.0, width: 70.0),
                                       Container(
                                         height: 40.0,
                                         width: 40.0,
@@ -173,21 +181,26 @@ class _DetailPageState extends State<DetailPage> {
                                     ],
                                   ),
                                   SizedBox(width: 10.0),
-                                  Text(
-                                  'More',
-                                  style:
-                                      TextStyle(color: Color(0xFF6A6A6A), fontFamily: 'Opensans', fontWeight: FontWeight.w600),
+                                  InkWell(
+                                    onTap: (){
+                                        Navigator.of(context).push (
+                                          MaterialPageRoute(builder: (BuildContext context) => TutorsPage())
+                                        );
+                                    },
+                                    child: Text(
+                                      'More',
+                                      style:
+                                          TextStyle(color: Color(0xFF6A6A6A), fontFamily: 'Opensans', fontWeight: FontWeight.w600),
                                 ),
-                                SizedBox(width: 7.0),
-                                Icon(Icons.arrow_drop_down, color: Color(0xFF6A6A6A), size: 25.0)
+                                  )
                                 ],
                             ),
                               ),
                               Padding(
                                 padding: EdgeInsets.only(top: 15.0, left: 15.0),
                                 child: Container(
-                                  width: 250.0,
-                                  child: Text('Officially the Republic of the Union of Myanmar and also known as Burma, is a country in Southeast Asia',
+                                  width: MediaQuery.of(context).size.width,
+                                  child: Text("${snapshot.data.subject}",
                                   style:
                                       TextStyle(color: Color(0xFF6A6A6A), fontFamily: 'Opensans', fontWeight: FontWeight.w300)
                                   ),
