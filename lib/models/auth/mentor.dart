@@ -17,7 +17,7 @@ class UserMentor {
 
   factory UserMentor.fromJson(Map json) {
     return UserMentor(
-      photo: json['profile']['photo'] ?? " ",
+      photo: json['profile']['photo'] == null || json['profile']['photo'] == "null" ? null : json['profile']['photo'],
       city: json['profile']['city'] ?? " ",
       country: json['profile']['country'] ?? " ",
       topic: json['topics']['topic'] ?? " ",

@@ -143,7 +143,13 @@ class TutorsPageState extends State<TutorsPage>
                           itemCount: snapshot.data.length,
                           itemBuilder: (BuildContext context , int index){ 
                             if(snapshot.data[index]['profile'] != null && snapshot.data[index]['topics'] != null){
-                              return _buildCard(snapshot.data[index]['id'],snapshot.data[index]['name'] ?? " ",snapshot.data[index]['topics']['category']['name'] ?? " ", "${snapshot.data[index]['rate']}", "${snapshot.data[index]['profile']['photo']}");
+                              if(snapshot.data[index]['profile']['photo'] == null){
+                                return _buildCard(snapshot.data[index]['id'],snapshot.data[index]['name'] ?? " ",snapshot.data[index]['topics']['category']['name'] ?? " ", "${snapshot.data[index]['rate']}", null);
+
+                              }else{
+                                return _buildCard(snapshot.data[index]['id'],snapshot.data[index]['name'] ?? " ",snapshot.data[index]['topics']['category']['name'] ?? " ", "${snapshot.data[index]['rate']}", "${snapshot.data[index]['profile']['photo']}");
+
+                              }
                             }
                           });
                   }else if(snapshot.hasError) {
@@ -292,7 +298,7 @@ class TutorsPageState extends State<TutorsPage>
               Container(
                 height: 275.0,
                 width: MediaQuery.of(context).size.width,
-                child: Image.network(imgPath, fit: BoxFit.cover),
+                child: imgPath == null ? Image.asset("assets/images/1.png", fit: BoxFit.cover) : Image.network(imgPath, fit: BoxFit.cover),
               ),
               //make the shade a bit deeper.
               Container(

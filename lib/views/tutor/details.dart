@@ -74,7 +74,8 @@ class _DetailPageState extends State<DetailPage> {
                         Container(
                           height: MediaQuery.of(context).size.height - 400.0,
                           width: MediaQuery.of(context).size.width,
-                          child: Image.network(snapshot.data.photo, fit: BoxFit.cover),
+                          child: snapshot.data.photo == null ? Image.asset("assets/images/1.png", fit: BoxFit.cover) : Image.network(snapshot.data.photo, fit: BoxFit.cover),
+
                         ),
                         Positioned(
                           top: 350.0,
