@@ -1,20 +1,17 @@
-
 import 'package:flutter/material.dart';
 import 'package:mentor/controllers/auth/auth.dart';
 import 'package:mentor/controllers/classes/classes.dart';
 import 'package:mentor/views/auth/login.dart';
+import 'package:mentor/views/event/events.dart';
 import 'package:mentor/views/home.dart';
 import 'package:mentor/views/tutor/tutors.dart';
 
-class ClassesPage extends StatefulWidget{
-  
+class ClassesPage extends StatefulWidget {
   ClassesPageState createState() => ClassesPageState();
-
 }
 
 class ClassesPageState extends State<ClassesPage>
-  with SingleTickerProviderStateMixin {
-
+    with SingleTickerProviderStateMixin {
   final _formKey = GlobalKey<FormState>();
 
   TabController controller;
@@ -34,7 +31,6 @@ class ClassesPageState extends State<ClassesPage>
     controller.dispose();
     super.dispose();
   }
-
 
   int getColorHexFromStr(String colorStr) {
     colorStr = "FF" + colorStr;
@@ -63,10 +59,8 @@ class ClassesPageState extends State<ClassesPage>
     return Scaffold(
       appBar: AppBar(
         title: Center(child: Text("Most Popular Classes")),
-        backgroundColor:  Color(getColorHexFromStr('#FDD148')),
-        actions:<Widget>[
-          _simplePopup()
-        ],
+        backgroundColor: Color(getColorHexFromStr('#FDD148')),
+        actions: <Widget>[_simplePopup()],
       ),
       drawer: Drawer(
         child: ListView(
@@ -78,7 +72,9 @@ class ClassesPageState extends State<ClassesPage>
                 children: <Widget>[
                   SizedBox(width: 50.0),
                   Image.asset('assets/images/1.png'),
-                  SizedBox(height: 10.0,),
+                  SizedBox(
+                    height: 10.0,
+                  ),
                 ],
               ),
               decoration: BoxDecoration(
@@ -104,7 +100,7 @@ class ClassesPageState extends State<ClassesPage>
       ),
       floatingActionButton: new FloatingActionButton(
         child: new Icon(Icons.search),
-        backgroundColor:  Color(getColorHexFromStr('#FDD148')),
+        backgroundColor: Color(getColorHexFromStr('#FDD148')),
         onPressed: () {
           _search();
           // Navigator.pushReplacementNamed(context, "/logout");
@@ -112,25 +108,27 @@ class ClassesPageState extends State<ClassesPage>
       ),
       body: Container(
         child: FutureBuilder<List>(
-            builder:  (context,snapshot){
-                  if(snapshot.hasData){
-                    return ListView.builder(
-                      itemCount: snapshot.data.length,
-                      itemBuilder: (BuildContext context , int index){ 
-                        return itemCard(snapshot.data[index]['user']['name'],
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              return ListView.builder(
+                  itemCount: snapshot.data.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return itemCard(
+                        snapshot.data[index]['user']['name'],
                         snapshot.data[index]['photo'],
                         snapshot.data[index]['topic']['topic'],
                         snapshot.data[index]['topic']['subject'],
-                        snapshot.data[index]['session_price'], false);
-                    });
-                  }else if(snapshot.hasError) {
-                    return Center( child: Text(snapshot.error));
-                  }
-                  return Center( child: CircularProgressIndicator(),);
-
-                  
-            },
-           future: classes.classes(),
+                        snapshot.data[index]['session_price'],
+                        false);
+                  });
+            } else if (snapshot.hasError) {
+              return Center(child: Text(snapshot.error));
+            }
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          },
+          future: classes.classes(),
         ),
       ),
       bottomNavigationBar: Material(
@@ -138,30 +136,52 @@ class ClassesPageState extends State<ClassesPage>
         child: TabBar(
           controller: controller,
           indicatorColor: Colors.yellow,
-          tabs:<Widget>[
+          tabs: <Widget>[
             InkWell(
-              onTap: (){
-                print(this.runtimeType);
-                Navigator.of(context).push(
-                  MaterialPageRoute(builder: (BuildContext context) => MyHomePage(name:auth.name))
-                );
-              },
-              child: Tab(icon: Icon(Icons.home, color: (this.runtimeType.toString() == "MyHomePageState")? Colors.yellow:Colors.grey))),
+                onTap: () {
+                  print(this.runtimeType);
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (BuildContext context) =>
+                          MyHomePage(name: auth.name)));
+                },
+                child: Tab(
+                    icon: Icon(Icons.home,
+                        color:
+                            (this.runtimeType.toString() == "MyHomePageState")
+                                ? Colors.yellow
+                                : Colors.grey))),
             InkWell(
-              onTap: (){ 
-                Navigator.of(context).push(
-                  MaterialPageRoute(builder: (BuildContext context) => TutorsPage())
-                );
-              },
-              child: Tab(icon: Icon(Icons.person_outline, color:(this.runtimeType.toString() == "TutorsPageState")? Colors.yellow:Colors.grey))),
+                onTap: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (BuildContext context) => TutorsPage()));
+                },
+                child: Tab(
+                    icon: Icon(Icons.person_outline,
+                        color:
+                            (this.runtimeType.toString() == "TutorsPageState")
+                                ? Colors.yellow
+                                : Colors.grey))),
             InkWell(
-              onTap: (){
-                Navigator.of(context).push(
-                  MaterialPageRoute(builder: (BuildContext context) => ClassesPage())
-                );
-              },
-              child: Tab(icon: Icon(Icons.class_, color: (this.runtimeType.toString() == "ClassesPageState")? Colors.yellow:Colors.grey))),
-            Tab(icon: Icon(Icons.event_seat, color: (this.runtimeType.toString() == "ClassesPage")? Colors.yellow:Colors.grey))
+                onTap: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (BuildContext context) => ClassesPage()));
+                },
+                child: Tab(
+                    icon: Icon(Icons.class_,
+                        color:
+                            (this.runtimeType.toString() == "ClassesPageState")
+                                ? Colors.yellow
+                                : Colors.grey))),
+            InkWell(
+                onTap: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (BuildContext context) => EventPage()));
+                },
+                child: Tab(
+                    icon: Icon(Icons.event_seat,
+                        color: (this.runtimeType.toString() == "EventPageState")
+                            ? Colors.yellow
+                            : Colors.grey)))
           ],
         ),
       ),
@@ -169,126 +189,121 @@ class ClassesPageState extends State<ClassesPage>
   }
 
   Widget _simplePopup() => PopupMenuButton(
-    onSelected: (value) {
-      if(value == 'Logout'){
-        Navigator.of(context).push(
-          MaterialPageRoute(builder: (BuildContext context) => LoginPage())
-        );
-      }
-    },
-    itemBuilder: (BuildContext context) =>
-    <PopupMenuItem<String>>[
-        PopupMenuItem<String>(
-          child: const Text('Logout'), value: 'Logout'
-        ),
-    ],
-  );
+        onSelected: (value) {
+          if (value == 'Logout') {
+            Navigator.of(context).push(MaterialPageRoute(
+                builder: (BuildContext context) => LoginPage()));
+          }
+        },
+        itemBuilder: (BuildContext context) => <PopupMenuItem<String>>[
+          PopupMenuItem<String>(child: const Text('Logout'), value: 'Logout'),
+        ],
+      );
 
   void _search() {
-      showDialog(
+    showDialog(
         context: context,
         builder: (BuildContext context) {
-        return AlertDialog(
-          title: Center(child: Text("Find tutor")),
-          content: Form(
-            key: _formKey,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: TextField(
-                    keyboardType: TextInputType.text,
-                    decoration: InputDecoration(
-                      labelText: "Tutor Name",
-                      hintText: "Please Enter name",
-                      icon: Icon(Icons.person)
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: TextField(
-                    keyboardType: TextInputType.text,
-                    decoration: InputDecoration(
-                      labelText: "Category",
-                      hintText: "Please Enter category",
-                      icon: Icon(Icons.category)
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: TextField(
-                    keyboardType: TextInputType.text,
-                    decoration: InputDecoration(
-                      labelText: "Topic",
-                      hintText: "Please Enter topic",
-                      icon: Icon(Icons.title)
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      RaisedButton(
-                        child: Text("Submit"),
-                        onPressed: () {},
+          return AlertDialog(
+              title: Center(child: Text("Find tutor")),
+              content: Form(
+                key: _formKey,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: TextField(
+                        keyboardType: TextInputType.text,
+                        decoration: InputDecoration(
+                            labelText: "Tutor Name",
+                            hintText: "Please Enter name",
+                            icon: Icon(Icons.person)),
                       ),
-                      RaisedButton(
-                        child: Text("Close"),
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        },
+                    ),
+                    Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: TextField(
+                        keyboardType: TextInputType.text,
+                        decoration: InputDecoration(
+                            labelText: "Category",
+                            hintText: "Please Enter category",
+                            icon: Icon(Icons.category)),
                       ),
-                    ],
-                  ),
-                )
-              ],
-            ),
-          )
-        );
-      }
-    );
+                    ),
+                    Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: TextField(
+                        keyboardType: TextInputType.text,
+                        decoration: InputDecoration(
+                            labelText: "Topic",
+                            hintText: "Please Enter topic",
+                            icon: Icon(Icons.title)),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          RaisedButton(
+                            child: Text("Submit"),
+                            onPressed: () {},
+                          ),
+                          RaisedButton(
+                            child: Text("Close"),
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                          ),
+                        ],
+                      ),
+                    )
+                  ],
+                ),
+              ));
+        });
   }
 
-  Widget itemCard(String title, String imgPath, String topic , String subject , String price , bool isFavorite) {
+  Widget itemCard(String title, String imgPath, String topic, String subject,
+      String price, bool isFavorite) {
     return InkWell(
-        onTap: (){
-          Navigator.of(context).pop();
-        },
-        child: Padding(
+      onTap: () {
+        Navigator.of(context).pop();
+      },
+      child: Padding(
         padding: EdgeInsets.only(left: 15.0, right: 16.0, top: 15.0),
         child: Container(
           // height: 150.0,
-          width: MediaQuery.of(context).size.width,//double.infinity,
+          width: MediaQuery.of(context).size.width, //double.infinity,
           color: Colors.white,
           child: Row(
             children: <Widget>[
               Container(
-                width: MediaQuery.of(context).size.width -250,
+                width: MediaQuery.of(context).size.width - 250,
                 height: 150.0,
                 decoration: BoxDecoration(
-                   image:  imgPath != null ? 
-                   DecorationImage(image: NetworkImage(imgPath) ) :
-                   DecorationImage(image: AssetImage('assets/images/1.png'))),
+                    image: imgPath != null
+                        ? DecorationImage(image: NetworkImage(imgPath))
+                        : DecorationImage(
+                            image: AssetImage('assets/images/1.png'))),
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 110.0),
+                  child: Container(
+                    decoration:
+                        BoxDecoration(color: Colors.black.withOpacity(0.8)),
                     child: Padding(
-                      padding: const EdgeInsets.only(top:110.0),
-                      child: Container(
-                        decoration: BoxDecoration(
-                              color: Colors.black.withOpacity(0.8)
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.only(top:10.0,left: 5.0),
-                          child: Text(title,
-                            style: TextStyle(
-                                color: Colors.white, fontFamily: 'Opensans' , fontWeight: FontWeight.bold),
-                          ),
-                        ),
+                      padding: const EdgeInsets.only(top: 10.0, left: 5.0),
+                      child: Text(
+                        title,
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontFamily: 'Opensans',
+                            fontWeight: FontWeight.bold),
                       ),
                     ),
+                  ),
+                ),
               ),
               SizedBox(width: 15.0),
               Column(
@@ -306,7 +321,7 @@ class ClassesPageState extends State<ClassesPage>
                               fontWeight: FontWeight.bold),
                         ),
                       ),
-                      SizedBox(width: MediaQuery.of(context).size.width-380),
+                      SizedBox(width: MediaQuery.of(context).size.width - 380),
                       Material(
                         elevation: isFavorite ? 0.0 : 2.0,
                         borderRadius: BorderRadius.circular(20.0),
@@ -329,8 +344,9 @@ class ClassesPageState extends State<ClassesPage>
                   ),
                   SizedBox(height: 10.0),
                   Container(
-                    width: MediaQuery.of(context).size.width-200,
-                    child: Text(subject,
+                    width: MediaQuery.of(context).size.width - 200,
+                    child: Text(
+                      subject,
                       textAlign: TextAlign.left,
                       style: TextStyle(
                           fontFamily: 'Quicksand',
@@ -348,7 +364,7 @@ class ClassesPageState extends State<ClassesPage>
                         color: Color(getColorHexFromStr('#F9C335')),
                         child: Center(
                           child: Text(
-                            '\$'+price,
+                            '\$' + price,
                             style: TextStyle(
                                 color: Colors.white,
                                 fontFamily: 'Quicksand',
@@ -381,7 +397,3 @@ class ClassesPageState extends State<ClassesPage>
     );
   }
 }
-
-
-
-            

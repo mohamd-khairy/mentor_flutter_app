@@ -1,36 +1,32 @@
-
 import 'package:flutter/material.dart';
 import 'package:mentor/controllers/auth/auth.dart';
 import 'package:mentor/views/auth/login.dart';
 import 'package:mentor/views/class/classes.dart';
+import 'package:mentor/views/event/events.dart';
 import 'package:mentor/views/tutor/tutors.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class MyHomePage extends StatefulWidget{
+class MyHomePage extends StatefulWidget {
   final name;
 
   MyHomePage({this.name});
   MyHomePageState createState() => MyHomePageState();
-
 }
 
 class MyHomePageState extends State<MyHomePage>
-  with SingleTickerProviderStateMixin {
-
+    with SingleTickerProviderStateMixin {
   final _formKey = GlobalKey<FormState>();
-
 
   TabController controller;
 
   var auth = new Auth();
-  
-  _save(String token) async{
+
+  _save(String token) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     final key = 'token';
     final value = token;
     prefs.setString(key, value);
   }
-
 
   @override
   void initState() {
@@ -44,7 +40,6 @@ class MyHomePageState extends State<MyHomePage>
     controller.dispose();
     super.dispose();
   }
-
 
   int getColorHexFromStr(String colorStr) {
     colorStr = "FF" + colorStr;
@@ -75,10 +70,8 @@ class MyHomePageState extends State<MyHomePage>
     return Scaffold(
       appBar: AppBar(
         title: Center(child: Text("MyMentor")),
-        backgroundColor:  Color(getColorHexFromStr('#FDD148')),
-        actions:<Widget>[
-          _simplePopup()
-        ],
+        backgroundColor: Color(getColorHexFromStr('#FDD148')),
+        actions: <Widget>[_simplePopup()],
       ),
       drawer: Drawer(
         child: ListView(
@@ -90,7 +83,9 @@ class MyHomePageState extends State<MyHomePage>
                 children: <Widget>[
                   SizedBox(width: 50.0),
                   Image.asset('assets/images/1.png'),
-                  SizedBox(height: 10.0,),
+                  SizedBox(
+                    height: 10.0,
+                  ),
                 ],
               ),
               decoration: BoxDecoration(
@@ -116,7 +111,7 @@ class MyHomePageState extends State<MyHomePage>
       ),
       floatingActionButton: new FloatingActionButton(
         child: new Icon(Icons.search),
-        backgroundColor:  Color(getColorHexFromStr('#FDD148')),
+        backgroundColor: Color(getColorHexFromStr('#FDD148')),
         onPressed: () {
           _search();
           // Navigator.pushReplacementNamed(context, "/logout");
@@ -159,12 +154,11 @@ class MyHomePageState extends State<MyHomePage>
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      
                       SizedBox(height: 25.0),
                       Padding(
                         padding: EdgeInsets.only(left: 15.0),
                         child: Text(
-                          'Hello , '+ widget.name,
+                          'Hello , ' + widget.name,
                           style: TextStyle(
                               fontFamily: 'Opensans',
                               fontSize: 25.0,
@@ -191,27 +185,31 @@ class MyHomePageState extends State<MyHomePage>
                 children: <Widget>[
                   Material(
                       elevation: 1.0,
-                      child: Container(height: 45.0, color: Colors.white)
-                  ),
+                      child: Container(height: 45.0, color: Colors.white)),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: <Widget>[
                       InkWell(
-                        onTap: (){
+                        onTap: () {
                           selectedTab["num"] = 0;
                           (context as Element).markNeedsBuild();
                         },
                         child: Container(
                           height: 45.0,
                           width: MediaQuery.of(context).size.width / 4,
-                          color:  (this.selectedTab['num'] == 0)? Color(getColorHexFromStr('#F9C335')): Colors.white,
+                          color: (this.selectedTab['num'] == 0)
+                              ? Color(getColorHexFromStr('#F9C335'))
+                              : Colors.white,
                           child: Padding(
-                          padding: const EdgeInsets.only(top:10.0),
+                            padding: const EdgeInsets.only(top: 10.0),
                             child: Column(
                               children: <Widget>[
                                 Text(
                                   'Pending',
-                                  style: TextStyle(fontFamily: 'Opensans' , fontSize: 20.0,fontWeight: FontWeight.bold),
+                                  style: TextStyle(
+                                      fontFamily: 'Opensans',
+                                      fontSize: 20.0,
+                                      fontWeight: FontWeight.bold),
                                 )
                               ],
                             ),
@@ -219,21 +217,26 @@ class MyHomePageState extends State<MyHomePage>
                         ),
                       ),
                       InkWell(
-                        onTap: (){
+                        onTap: () {
                           selectedTab["num"] = 1;
                           (context as Element).markNeedsBuild();
                         },
                         child: Container(
                           height: 45.0,
                           width: MediaQuery.of(context).size.width / 4,
-                          color:  (this.selectedTab['num'] == 1)? Color(getColorHexFromStr('#F9C335')): Colors.white,
+                          color: (this.selectedTab['num'] == 1)
+                              ? Color(getColorHexFromStr('#F9C335'))
+                              : Colors.white,
                           child: Padding(
-                            padding: const EdgeInsets.only(top:10.0),
+                            padding: const EdgeInsets.only(top: 10.0),
                             child: Column(
                               children: <Widget>[
                                 Text(
                                   'Upcoming',
-                                  style: TextStyle(fontFamily: 'Opensans' , fontSize: 20.0,fontWeight: FontWeight.bold),
+                                  style: TextStyle(
+                                      fontFamily: 'Opensans',
+                                      fontSize: 20.0,
+                                      fontWeight: FontWeight.bold),
                                 )
                               ],
                             ),
@@ -241,21 +244,26 @@ class MyHomePageState extends State<MyHomePage>
                         ),
                       ),
                       InkWell(
-                        onTap: (){
+                        onTap: () {
                           selectedTab["num"] = 2;
                           (context as Element).markNeedsBuild();
                         },
                         child: Container(
                           height: 45.0,
                           width: MediaQuery.of(context).size.width / 4,
-                          color:  (this.selectedTab['num'] == 2)? Color(getColorHexFromStr('#F9C335')): Colors.white,
+                          color: (this.selectedTab['num'] == 2)
+                              ? Color(getColorHexFromStr('#F9C335'))
+                              : Colors.white,
                           child: Padding(
-                            padding: const EdgeInsets.only(top:10.0),
+                            padding: const EdgeInsets.only(top: 10.0),
                             child: Column(
                               children: <Widget>[
                                 Text(
                                   'Classes',
-                                  style: TextStyle(fontFamily: 'Opensans' , fontSize: 20.0,fontWeight: FontWeight.bold),
+                                  style: TextStyle(
+                                      fontFamily: 'Opensans',
+                                      fontSize: 20.0,
+                                      fontWeight: FontWeight.bold),
                                 )
                               ],
                             ),
@@ -263,21 +271,26 @@ class MyHomePageState extends State<MyHomePage>
                         ),
                       ),
                       InkWell(
-                        onTap: (){
+                        onTap: () {
                           selectedTab["num"] = 3;
                           (context as Element).markNeedsBuild();
                         },
                         child: Container(
                           height: 45.0,
                           width: MediaQuery.of(context).size.width / 4,
-                          color:  (this.selectedTab['num'] == 3)? Color(getColorHexFromStr('#F9C335')): Colors.white,
+                          color: (this.selectedTab['num'] == 3)
+                              ? Color(getColorHexFromStr('#F9C335'))
+                              : Colors.white,
                           child: Padding(
-                            padding: const EdgeInsets.only(top:10.0),
+                            padding: const EdgeInsets.only(top: 10.0),
                             child: Column(
                               children: <Widget>[
                                 Text(
                                   'Sessions',
-                                  style: TextStyle(fontFamily: 'Opensans' , fontSize: 20.0,fontWeight: FontWeight.bold),
+                                  style: TextStyle(
+                                      fontFamily: 'Opensans',
+                                      fontSize: 20.0,
+                                      fontWeight: FontWeight.bold),
                                 )
                               ],
                             ),
@@ -300,29 +313,51 @@ class MyHomePageState extends State<MyHomePage>
           indicatorColor: Colors.yellow,
           tabs: <Widget>[
             InkWell(
-              onTap: (){
-                // print(this.runtimeType);
-                 auth.read('name');
-                Navigator.of(context).push(
-                  MaterialPageRoute(builder: (BuildContext context) => MyHomePage(name: auth.name))
-                );
-              },
-              child: Tab(icon: Icon(Icons.home, color: (this.runtimeType.toString() == "MyHomePageState")? Colors.yellow:Colors.grey))),
+                onTap: () {
+                  // print(this.runtimeType);
+                  auth.read('name');
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (BuildContext context) =>
+                          MyHomePage(name: auth.name)));
+                },
+                child: Tab(
+                    icon: Icon(Icons.home,
+                        color:
+                            (this.runtimeType.toString() == "MyHomePageState")
+                                ? Colors.yellow
+                                : Colors.grey))),
             InkWell(
-              onTap: (){ 
-                Navigator.of(context).push(
-                  MaterialPageRoute(builder: (BuildContext context) => TutorsPage())
-                );
-              },
-              child: Tab(icon: Icon(Icons.person_outline, color:(this.runtimeType.toString() == "TutorsPageState")? Colors.yellow:Colors.grey))),
+                onTap: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (BuildContext context) => TutorsPage()));
+                },
+                child: Tab(
+                    icon: Icon(Icons.person_outline,
+                        color:
+                            (this.runtimeType.toString() == "TutorsPageState")
+                                ? Colors.yellow
+                                : Colors.grey))),
             InkWell(
-              onTap: (){
-                Navigator.of(context).push(
-                  MaterialPageRoute(builder: (BuildContext context) => ClassesPage())
-                );
-              },
-              child: Tab(icon: Icon(Icons.class_, color: (this.runtimeType.toString() == "ClassesPageState")? Colors.yellow:Colors.grey))),
-            Tab(icon: Icon(Icons.event_seat, color: (this.runtimeType.toString() == "ClassesPage")? Colors.yellow:Colors.grey))
+                onTap: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (BuildContext context) => ClassesPage()));
+                },
+                child: Tab(
+                    icon: Icon(Icons.class_,
+                        color:
+                            (this.runtimeType.toString() == "ClassesPageState")
+                                ? Colors.yellow
+                                : Colors.grey))),
+            InkWell(
+                onTap: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (BuildContext context) => EventPage()));
+                },
+                child: Tab(
+                    icon: Icon(Icons.event_seat,
+                        color: (this.runtimeType.toString() == "EventPageState")
+                            ? Colors.yellow
+                            : Colors.grey)))
           ],
         ),
       ),
@@ -330,94 +365,80 @@ class MyHomePageState extends State<MyHomePage>
   }
 
   Widget _simplePopup() => PopupMenuButton(
-    onSelected: (value) {
-      if(value == 'Logout'){
-        _save('0');
-        Navigator.of(context).push(
-          MaterialPageRoute(builder: (BuildContext context) => LoginPage())
-        );
-      }
-    },
-    itemBuilder: (BuildContext context) =>
-    <PopupMenuItem<String>>[
-        PopupMenuItem<String>(
-          child: const Text('Logout'), value: 'Logout'
-        ),
-    ],
-  );
+        onSelected: (value) {
+          if (value == 'Logout') {
+            _save('0');
+            Navigator.of(context).push(MaterialPageRoute(
+                builder: (BuildContext context) => LoginPage()));
+          }
+        },
+        itemBuilder: (BuildContext context) => <PopupMenuItem<String>>[
+          PopupMenuItem<String>(child: const Text('Logout'), value: 'Logout'),
+        ],
+      );
 
   void _search() {
-      showDialog(
+    showDialog(
         context: context,
         builder: (BuildContext context) {
-        return AlertDialog(
-          title: Center(child: Text("Find tutor")),
-          content: Form(
-            key: _formKey,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: TextField(
-                    keyboardType: TextInputType.text,
-                    decoration: InputDecoration(
-                      labelText: "Tutor Name",
-                      hintText: "Please Enter name",
-                      icon: Icon(Icons.person)
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: TextField(
-                    keyboardType: TextInputType.text,
-                    decoration: InputDecoration(
-                      labelText: "Category",
-                      hintText: "Please Enter category",
-                      icon: Icon(Icons.category)
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: TextField(
-                    keyboardType: TextInputType.text,
-                    decoration: InputDecoration(
-                      labelText: "Topic",
-                      hintText: "Please Enter topic",
-                      icon: Icon(Icons.title)
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      RaisedButton(
-                        child: Text("Submit"),
-                        onPressed: () {},
+          return AlertDialog(
+              title: Center(child: Text("Find tutor")),
+              content: Form(
+                key: _formKey,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: TextField(
+                        keyboardType: TextInputType.text,
+                        decoration: InputDecoration(
+                            labelText: "Tutor Name",
+                            hintText: "Please Enter name",
+                            icon: Icon(Icons.person)),
                       ),
-                      RaisedButton(
-                        child: Text("Close"),
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        },
+                    ),
+                    Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: TextField(
+                        keyboardType: TextInputType.text,
+                        decoration: InputDecoration(
+                            labelText: "Category",
+                            hintText: "Please Enter category",
+                            icon: Icon(Icons.category)),
                       ),
-                    ],
-                  ),
-                )
-              ],
-            ),
-          )
-        );
-      }
-    );
+                    ),
+                    Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: TextField(
+                        keyboardType: TextInputType.text,
+                        decoration: InputDecoration(
+                            labelText: "Topic",
+                            hintText: "Please Enter topic",
+                            icon: Icon(Icons.title)),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          RaisedButton(
+                            child: Text("Submit"),
+                            onPressed: () {},
+                          ),
+                          RaisedButton(
+                            child: Text("Close"),
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                          ),
+                        ],
+                      ),
+                    )
+                  ],
+                ),
+              ));
+        });
   }
-
 }
-
-
-
-            
