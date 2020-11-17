@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mentor/constant/text_style.dart';
 import 'package:mentor/controllers/auth/auth.dart';
+import 'package:mentor/controllers/event/event.dart';
 import 'package:mentor/controllers/mentor/mentor.dart';
 import 'package:mentor/models/event_model.dart';
 import 'package:mentor/pages/event_detail_page.dart';
@@ -10,7 +11,6 @@ import 'package:mentor/views/auth/login.dart';
 import 'package:mentor/views/class/classes.dart';
 import 'package:mentor/views/home.dart';
 import 'package:mentor/views/tutor/tutors.dart';
-import 'package:mentor/widgets/home_bg_color.dart';
 import 'package:mentor/widgets/nearby_event_card.dart';
 import 'package:mentor/widgets/ui_helper.dart';
 import 'package:mentor/widgets/upcoming_event_card.dart';
@@ -32,6 +32,7 @@ class EventPageState extends State<EventPage> with TickerProviderStateMixin {
 
   final auth = new Auth();
   final mentor = new Mentor();
+  final events = new CEvent();
 
   @override
   void initState() {
@@ -281,30 +282,44 @@ class EventPageState extends State<EventPage> with TickerProviderStateMixin {
               UIHelper.horizontalSpace(16),
             ],
           ),
-          ListView.builder(
-            itemCount: nearbyEvents.length,
-            shrinkWrap: true,
-            primary: false,
-            itemBuilder: (context, index) {
-              final event = nearbyEvents[index];
-              var animation = Tween<double>(begin: 800.0, end: 0.0).animate(
-                CurvedAnimation(
-                  parent: controller2,
-                  curve: Interval((1 / nearbyEvents.length) * index, 1.0,
-                      curve: Curves.decelerate),
-                ),
-              );
-              return AnimatedBuilder(
-                animation: animation,
-                builder: (context, child) => Transform.translate(
-                  offset: Offset(animation.value, 0.0),
-                  child: NearbyEventCard(
-                    event,
-                    onTap: () => viewEventDetail(event),
-                  ),
-                ),
+          FutureBuilder<List<Event>>(
+            builder: (context, snapshot) {
+              final nearbyEvents = snapshot.data;
+              if (snapshot.hasData) {
+                return ListView.builder(
+                  itemCount: nearbyEvents.length ?? 0,
+                  shrinkWrap: true,
+                  primary: false,
+                  itemBuilder: (context, index) {
+                    final event = nearbyEvents[index];
+                    var animation =
+                        Tween<double>(begin: 800.0, end: 0.0).animate(
+                      CurvedAnimation(
+                        parent: controller2,
+                        curve: Interval((1 / nearbyEvents.length) * index, 1.0,
+                            curve: Curves.decelerate),
+                      ),
+                    );
+                    return AnimatedBuilder(
+                      animation: animation,
+                      builder: (context, child) => Transform.translate(
+                        offset: Offset(animation.value, 0.0),
+                        child: NearbyEventCard(
+                          event,
+                          onTap: () => viewEventDetail(event),
+                        ),
+                      ),
+                    );
+                  },
+                );
+              } else if (snapshot.hasError) {
+                return Center(child: Text(snapshot.error));
+              }
+              return Center(
+                child: CircularProgressIndicator(),
               );
             },
+            future: events.event_data(),
           ),
         ],
       ),
