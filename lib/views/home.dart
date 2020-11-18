@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:mentor/constant/color.dart';
+import 'package:mentor/constant/text_style.dart';
 import 'package:mentor/controllers/auth/auth.dart';
+import 'package:mentor/utils/datetime_utils.dart';
 import 'package:mentor/views/auth/login.dart';
 import 'package:mentor/views/class/classes.dart';
 import 'package:mentor/views/event/events.dart';
 import 'package:mentor/views/tutor/tutors.dart';
+import 'package:mentor/widgets/ui_helper.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class MyHomePage extends StatefulWidget {
@@ -296,12 +300,278 @@ class MyHomePageState extends State<MyHomePage>
                             ),
                           ),
                         ),
-                      )
+                      ),
                     ],
-                  )
+                  ),
                 ],
               ),
-              //content should put here
+              Stack(
+                children: <Widget>[
+                  selectedTab['num'] == 0
+                      ? Stack(children: <Widget>[
+                          Padding(
+                            padding: const EdgeInsets.only(top: 18.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: <Widget>[
+                                UIHelper.horizontalSpace(20),
+                                Text("Pending Requests", style: headerStyle),
+                                Spacer(),
+                                Icon(Icons.more_horiz),
+                                UIHelper.horizontalSpace(26),
+                              ],
+                            ),
+                          ),
+                          Padding(
+                            padding:
+                                const EdgeInsets.only(top: 50.0, left: 28.0),
+                            child: Column(
+                              children: [
+                                Container(
+                                  child: InkWell(
+                                    onTap: () {},
+                                    child: Row(
+                                      children: <Widget>[
+                                        ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(16),
+                                          child: Container(
+                                              color: imgBG,
+                                              width: 80,
+                                              height: 100,
+                                              child: Image.asset(
+                                                  'assets/images/1.png')),
+                                        ),
+                                        Container(
+                                          padding: const EdgeInsets.all(15),
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: <Widget>[
+                                              UIHelper.verticalSpace(8),
+                                              Text("Mohamed Khairy",
+                                                  style: titleStyle),
+                                              UIHelper.verticalSpace(8),
+                                              Text("PHP Interview questions",
+                                                  style: subtitleStyle),
+                                              UIHelper.verticalSpace(8),
+                                              Row(
+                                                children: <Widget>[
+                                                  Text("2020-01-01",
+                                                      style: monthStyle),
+                                                  UIHelper.horizontalSpace(10),
+                                                  Text("10:00 - 12:00 PM",
+                                                      style: subtitleStyle),
+                                                ],
+                                              ),
+                                              UIHelper.verticalSpace(8),
+                                              Row(
+                                                children: <Widget>[
+                                                  Icon(Icons.location_on,
+                                                      size: 16,
+                                                      color: Theme.of(context)
+                                                          .primaryColor),
+                                                  UIHelper.horizontalSpace(8),
+                                                  Text("Egypt / Cairo",
+                                                      style: subtitleStyle),
+                                                ],
+                                              ),
+                                            ],
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                Container(
+                                  child: InkWell(
+                                    onTap: () {},
+                                    child: Row(
+                                      children: <Widget>[
+                                        ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(16),
+                                          child: Container(
+                                              color: imgBG,
+                                              width: 80,
+                                              height: 100,
+                                              child: Image.asset(
+                                                  'assets/images/1.png')),
+                                        ),
+                                        Container(
+                                          padding: const EdgeInsets.all(15),
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: <Widget>[
+                                              UIHelper.verticalSpace(8),
+                                              Text("Mohamed Khairy",
+                                                  style: titleStyle),
+                                              UIHelper.verticalSpace(8),
+                                              Text("PHP Interview questions",
+                                                  style: subtitleStyle),
+                                              UIHelper.verticalSpace(8),
+                                              Row(
+                                                children: <Widget>[
+                                                  Text("2020-01-01",
+                                                      style: monthStyle),
+                                                  UIHelper.horizontalSpace(10),
+                                                  Text("10:00 - 12:00 PM",
+                                                      style: subtitleStyle),
+                                                ],
+                                              ),
+                                              UIHelper.verticalSpace(8),
+                                              Row(
+                                                children: <Widget>[
+                                                  Icon(Icons.location_on,
+                                                      size: 16,
+                                                      color: Theme.of(context)
+                                                          .primaryColor),
+                                                  UIHelper.horizontalSpace(8),
+                                                  Text("Egypt / Cairo",
+                                                      style: subtitleStyle),
+                                                ],
+                                              ),
+                                            ],
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                Container(
+                                  child: InkWell(
+                                    onTap: () {},
+                                    child: Row(
+                                      children: <Widget>[
+                                        ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(16),
+                                          child: Container(
+                                              color: imgBG,
+                                              width: 80,
+                                              height: 100,
+                                              child: Image.asset(
+                                                  'assets/images/1.png')),
+                                        ),
+                                        Container(
+                                          padding: const EdgeInsets.all(15),
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: <Widget>[
+                                              UIHelper.verticalSpace(8),
+                                              Text("Mohamed Khairy",
+                                                  style: titleStyle),
+                                              UIHelper.verticalSpace(8),
+                                              Text("PHP Interview questions",
+                                                  style: subtitleStyle),
+                                              UIHelper.verticalSpace(8),
+                                              Row(
+                                                children: <Widget>[
+                                                  Text("2020-01-01",
+                                                      style: monthStyle),
+                                                  UIHelper.horizontalSpace(10),
+                                                  Text("10:00 - 12:00 PM",
+                                                      style: subtitleStyle),
+                                                ],
+                                              ),
+                                              UIHelper.verticalSpace(8),
+                                              Row(
+                                                children: <Widget>[
+                                                  Icon(Icons.location_on,
+                                                      size: 16,
+                                                      color: Theme.of(context)
+                                                          .primaryColor),
+                                                  UIHelper.horizontalSpace(8),
+                                                  Text("Egypt / Cairo",
+                                                      style: subtitleStyle),
+                                                ],
+                                              ),
+                                            ],
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                Container(
+                                  child: InkWell(
+                                    onTap: () {},
+                                    child: Row(
+                                      children: <Widget>[
+                                        ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(16),
+                                          child: Container(
+                                              color: imgBG,
+                                              width: 80,
+                                              height: 100,
+                                              child: Image.asset(
+                                                  'assets/images/1.png')),
+                                        ),
+                                        Container(
+                                          padding: const EdgeInsets.all(15),
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: <Widget>[
+                                              UIHelper.verticalSpace(8),
+                                              Text("Mohamed Khairy",
+                                                  style: titleStyle),
+                                              UIHelper.verticalSpace(8),
+                                              Text("PHP Interview questions",
+                                                  style: subtitleStyle),
+                                              UIHelper.verticalSpace(8),
+                                              Row(
+                                                children: <Widget>[
+                                                  Text("2020-01-01",
+                                                      style: monthStyle),
+                                                  UIHelper.horizontalSpace(10),
+                                                  Text("10:00 - 12:00 PM",
+                                                      style: subtitleStyle),
+                                                ],
+                                              ),
+                                              UIHelper.verticalSpace(8),
+                                              Row(
+                                                children: <Widget>[
+                                                  Icon(Icons.location_on,
+                                                      size: 16,
+                                                      color: Theme.of(context)
+                                                          .primaryColor),
+                                                  UIHelper.horizontalSpace(8),
+                                                  Text("Egypt / Cairo",
+                                                      style: subtitleStyle),
+                                                ],
+                                              ),
+                                            ],
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ])
+                      : selectedTab['num'] == 1
+                          ? Text("Upcoming")
+                          : selectedTab['num'] == 2
+                              ? Text("Classes")
+                              : selectedTab['num'] == 3
+                                  ? Text("Sessions")
+                                  : Text("some thing wrong")
+                ],
+              ),
             ],
           ),
         ],
