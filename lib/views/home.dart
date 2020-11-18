@@ -173,7 +173,7 @@ class MyHomePageState extends State<MyHomePage>
                       Padding(
                         padding: const EdgeInsets.only(left: 15.0),
                         child: Text(
-                          'What do you want to buy?',
+                          'What do you want to Do Today?',
                           style: TextStyle(
                               fontFamily: 'Opensans',
                               fontSize: 23.0,
