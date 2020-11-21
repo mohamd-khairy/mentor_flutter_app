@@ -16,12 +16,12 @@ class Request {
 
   factory Request.fromJson(Map<String, dynamic> json) {
     return Request(
-      name: json['user_recieve']['name'].toString(),
-      title: json['title'].toString(),
-      days: json['day_ids'].join(',').toString(),
-      image: json['user_recieve']['profile']['photo'].toString(),
-      created_at: json['created_at'].toString(),
-      type: json['session_type'].toString(),
+      name: json['user_give']['name'].toString() ?? "",
+      title: json['title'].toString() ?? "",
+      days: json['day_ids'].join(',').toString() ?? "",
+      image: json['user_give']['profile']['photo'].toString() ?? "",
+      created_at: json['created_at'].toString() ?? "",
+      type: json['session_type'].toString() ?? "",
     );
   }
 }

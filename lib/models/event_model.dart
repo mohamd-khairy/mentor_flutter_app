@@ -33,7 +33,8 @@ final List<Event> upcomingEvents = [
   Event(
     name: "The Pretty Reckless",
     eventDate: DateTime.now().add(const Duration(days: 24)),
-    image: 'https://source.unsplash.com/800x600/?concert',
+    image:
+        'https://source.unsplash.com/800x600/?concert', //https://img.freepik.com/free-vector/businessman-profile-cartoon_18591-58479.jpg?size=338&ext=jpg
     description:
         "The pretty reckless is an American rock band from New york city, Formed in 2009. The",
     location: "Fairview Gospel Church",

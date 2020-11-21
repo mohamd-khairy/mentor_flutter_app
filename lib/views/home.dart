@@ -6,6 +6,7 @@ import 'package:mentor/constant/text_style.dart';
 import 'package:mentor/controllers/auth/auth.dart';
 import 'package:mentor/controllers/sessions/session.dart';
 import 'package:mentor/models/request_model.dart';
+import 'package:mentor/models/request_upcoming_model.dart';
 import 'package:mentor/views/auth/login.dart';
 import 'package:mentor/views/class/classes.dart';
 import 'package:mentor/views/event/events.dart';
@@ -311,139 +312,9 @@ class MyHomePageState extends State<MyHomePage>
               Stack(
                 children: <Widget>[
                   selectedTab['num'] == 0
-                      ? Stack(children: <Widget>[
-                          Padding(
-                            padding: const EdgeInsets.only(top: 18.0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: <Widget>[
-                                UIHelper.horizontalSpace(20),
-                                Text("Pending Requests", style: headerStyle),
-                                Spacer(),
-                                Icon(Icons.more_horiz),
-                                UIHelper.horizontalSpace(26),
-                              ],
-                            ),
-                          ),
-                          Padding(
-                            padding:
-                                const EdgeInsets.only(top: 50.0, left: 28.0),
-                            child: Column(
-                              children: [
-                                FutureBuilder<List<Request>>(
-                                  builder: (context, snapshot) {
-                                    if (snapshot.hasData) {
-                                      return ListView.builder(
-                                          itemCount: snapshot.data.length ?? 0,
-                                          shrinkWrap: true,
-                                          primary: false,
-                                          itemBuilder: (context, index) {
-                                            final item = snapshot.data[index];
-                                            return Container(
-                                              child: InkWell(
-                                                onTap: () {},
-                                                child: Row(
-                                                  children: <Widget>[
-                                                    ClipRRect(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              16),
-                                                      child: Container(
-                                                        color: imgBG,
-                                                        width: 80,
-                                                        height: 100,
-                                                        child: Hero(
-                                                          tag: item.image,
-                                                          child: Image.network(
-                                                            item.image,
-                                                            fit: BoxFit.cover,
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    Container(
-                                                      padding:
-                                                          const EdgeInsets.all(
-                                                              15),
-                                                      child: Column(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .spaceBetween,
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .start,
-                                                        children: <Widget>[
-                                                          UIHelper
-                                                              .verticalSpace(8),
-                                                          Text(item.name,
-                                                              style:
-                                                                  titleStyle),
-                                                          UIHelper
-                                                              .verticalSpace(8),
-                                                          Container(
-                                                            width: 250,
-                                                            child: Text(
-                                                                item.title,
-                                                                style:
-                                                                    subtitleStyle),
-                                                          ),
-                                                          UIHelper
-                                                              .verticalSpace(8),
-                                                          Row(
-                                                            children: <Widget>[
-                                                              Container(
-                                                                width: 270,
-                                                                child: Text(
-                                                                    item
-                                                                        .created_at,
-                                                                    style:
-                                                                        monthStyle),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                          UIHelper
-                                                              .verticalSpace(8),
-                                                          Row(
-                                                            children: <Widget>[
-                                                              Icon(
-                                                                  Icons
-                                                                      .location_on,
-                                                                  size: 16,
-                                                                  color: Theme.of(
-                                                                          context)
-                                                                      .primaryColor),
-                                                              UIHelper
-                                                                  .horizontalSpace(
-                                                                      8),
-                                                              Text(
-                                                                  item.days +
-                                                                      " / " +
-                                                                      item.type,
-                                                                  style:
-                                                                      subtitleStyle),
-                                                            ],
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    )
-                                                  ],
-                                                ),
-                                              ),
-                                            );
-                                          });
-                                    }
-                                    return Center(
-                                      child: CircularProgressIndicator(),
-                                    );
-                                  },
-                                  future: new CSession().pending_sessions(),
-                                )
-                              ],
-                            ),
-                          ),
-                        ])
+                      ? pendding()
                       : selectedTab['num'] == 1
-                          ? Text("Upcoming")
+                          ? upcoming()
                           : selectedTab['num'] == 2
                               ? Text("Classes")
                               : selectedTab['num'] == 3
@@ -589,5 +460,219 @@ class MyHomePageState extends State<MyHomePage>
                 ),
               ));
         });
+  }
+
+  Widget pendding() {
+    return Stack(children: <Widget>[
+      Padding(
+        padding: const EdgeInsets.only(top: 18.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: <Widget>[
+            UIHelper.horizontalSpace(20),
+            Text("Pending Requests", style: headerStyle),
+            Spacer(),
+            Icon(Icons.more_horiz),
+            UIHelper.horizontalSpace(26),
+          ],
+        ),
+      ),
+      Padding(
+        padding: const EdgeInsets.only(top: 50.0, left: 28.0),
+        child: Column(
+          children: [
+            FutureBuilder<List<Request>>(
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  return ListView.builder(
+                      itemCount: snapshot.data.length ?? 0,
+                      shrinkWrap: true,
+                      primary: false,
+                      itemBuilder: (context, index) {
+                        final item = snapshot.data[index];
+                        return Container(
+                          child: InkWell(
+                            onTap: () {},
+                            child: Row(
+                              children: <Widget>[
+                                ClipRRect(
+                                  borderRadius: BorderRadius.circular(16),
+                                  child: Container(
+                                    color: imgBG,
+                                    width: 80,
+                                    height: 100,
+                                    child: Hero(
+                                      tag: item.image,
+                                      child: Image.network(
+                                        item.image,
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                Container(
+                                  padding: const EdgeInsets.all(15),
+                                  child: Column(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: <Widget>[
+                                      UIHelper.verticalSpace(8),
+                                      Text(item.name, style: titleStyle),
+                                      UIHelper.verticalSpace(8),
+                                      Container(
+                                        width: 250,
+                                        child: Text(item.title,
+                                            style: subtitleStyle),
+                                      ),
+                                      UIHelper.verticalSpace(8),
+                                      Row(
+                                        children: <Widget>[
+                                          Container(
+                                            width: 270,
+                                            child: Text(item.created_at,
+                                                style: monthStyle),
+                                          ),
+                                        ],
+                                      ),
+                                      UIHelper.verticalSpace(8),
+                                      Row(
+                                        children: <Widget>[
+                                          Icon(Icons.location_on,
+                                              size: 16,
+                                              color: Theme.of(context)
+                                                  .primaryColor),
+                                          UIHelper.horizontalSpace(8),
+                                          Text(item.days + " / " + item.type,
+                                              style: subtitleStyle),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                        );
+                      });
+                }
+                return Center(
+                  child: CircularProgressIndicator(),
+                );
+              },
+              future: new CSession().pending_sessions(),
+            )
+          ],
+        ),
+      ),
+    ]);
+  }
+
+  Widget upcoming() {
+    return Stack(children: <Widget>[
+      Padding(
+        padding: const EdgeInsets.only(top: 18.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: <Widget>[
+            UIHelper.horizontalSpace(20),
+            Text("Upcoming Requests", style: headerStyle),
+            Spacer(),
+            Icon(Icons.more_horiz),
+            UIHelper.horizontalSpace(26),
+          ],
+        ),
+      ),
+      Padding(
+        padding: const EdgeInsets.only(top: 50.0, left: 28.0),
+        child: Column(
+          children: [
+            FutureBuilder<List<RequestUpcoming>>(
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  return ListView.builder(
+                      itemCount: snapshot.data.length ?? 0,
+                      shrinkWrap: true,
+                      primary: false,
+                      itemBuilder: (context, index) {
+                        final item = snapshot.data[index];
+                        return Container(
+                          child: InkWell(
+                            onTap: () {},
+                            child: Row(
+                              children: <Widget>[
+                                ClipRRect(
+                                  borderRadius: BorderRadius.circular(16),
+                                  child: Container(
+                                    color: imgBG,
+                                    width: 80,
+                                    height: 100,
+                                    child: Hero(
+                                      tag: item.image,
+                                      child: Image.network(
+                                        item.image,
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                Container(
+                                  padding: const EdgeInsets.all(15),
+                                  child: Column(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: <Widget>[
+                                      UIHelper.verticalSpace(8),
+                                      Text(item.name, style: titleStyle),
+                                      UIHelper.verticalSpace(8),
+                                      Container(
+                                        width: 250,
+                                        child: Text(item.title,
+                                            style: subtitleStyle),
+                                      ),
+                                      UIHelper.verticalSpace(8),
+                                      Row(
+                                        children: <Widget>[
+                                          Container(
+                                            width: 270,
+                                            child: Text(item.created_at,
+                                                style: monthStyle),
+                                          ),
+                                        ],
+                                      ),
+                                      UIHelper.verticalSpace(8),
+                                      Row(
+                                        children: <Widget>[
+                                          Icon(Icons.location_on,
+                                              size: 16,
+                                              color: Theme.of(context)
+                                                  .primaryColor),
+                                          UIHelper.horizontalSpace(8),
+                                          Text(item.days + " / " + item.type,
+                                              style: subtitleStyle),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                        );
+                      });
+                }
+                return Center(
+                  child: CircularProgressIndicator(),
+                );
+              },
+              future: new CSession().upcomming_sessions(),
+            )
+          ],
+        ),
+      ),
+    ]);
   }
 }
